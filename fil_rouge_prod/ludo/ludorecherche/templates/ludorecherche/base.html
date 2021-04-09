@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My_ludo</title>
+    {% load static %}
+    <link rel="icon" href="{% static 'ludorecherche/img/sword.png' %}" type="image/x-icon">
+    <!--Font Awesome icons-->
+    <script src="https://kit.fontawesome.com/51869bbcae.js" crossorigin="anonymous"></script>
+    <!--Bootstrap Css-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <!--Custom Css-->
+    <link rel="stylesheet" type="text/css" href="{% static 'ludorecherche/css/style.css' %}" />
+    <!--Fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="col-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'ludorecherche:index' %}">Accueil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'ludorecherche:search_page' %}">Recherche avancée</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'ludorecherche:list_all' %}">Tous les jeux</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'ludorecherche:lucky' %}">Tenter sa chance</a>
+          </li>
+            <li class="nav-item">
+                <span>
+            <form action="{% url 'ludorecherche:search' %}" method="get" accept-charset="utf-8">
+                <label class="label_search"for="searchForm">Chercher un jeu</label>
+                <input id="searchForm" class="form-control" name="query">
+                <span class="help-block" id="helpBlock"><ul><li>Trouvez vos jeux en tapant:</li><li>une partie du nom du jeu,</li>
+                    <li>une partie du nom d'un auteur,</li> <li>une partie du nom d'un illustrateurs,</li><li>une partie du nom de l'éditeur,</li>
+                    <li> une difficulté</li><li>un de ses mots-clés</li> <li>un nombre de joueurs</li>
+                <li>la langue</li><li>un tyoe de jeu</li></ul></span>
+            </form>
+                    </span>
+          </li>
+        </ul>
+    </nav>
+    <div class="container">
+            <div class="row col-12">
+                <div class="col-3"></div>
+                <div class="box col-9">
+                    <div class="col-lg-12">
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="container footer">
+        <div class="row col-12">
+            <div class="col-3"></div>
+            <div class="box col-9"><footer><p>Projet <span id="red_stripe">fil_rouge</span> DEV FAD 31-01-21 J.AUDIFFREN</p></footer></div>
+        </div>
+    </div>
+
+<!--Bootstrap Js-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+</body>
+</html>

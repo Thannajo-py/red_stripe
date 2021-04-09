@@ -1,0 +1,85 @@
+{% extends 'ludorecherche/base.html' %}
+{% block content %}
+<h1>Notre boule de cristal est à votre service</h1>
+
+  <form class="form-inline advanced" action="{% url 'ludorecherche:advanced_search'%}" method="get">
+
+    <table class="search_table">
+      <tbody>
+    <tr>
+      <td><label for="{{ form.name.id_for_label }}" class="control-label"><i class="fas fa-heading"></i>Nom</label></td>
+      <td>{{ form.name }}</td>
+    </tr>
+      <tr>
+        <td><label for="{{ form.designer.id_for_label }}" class="control-label"><i class="fas fa-user-edit"></i>Auteur</label></td>
+        <td>{{ form.designer }}</td>
+      </tr>
+    <tr>
+        <td><label for="{{ form.artist.id_for_label }}" class="control-label"><i class="fas fa-paint-brush"></i>Illustrateur</label></td>
+        <td>{{ form.artist }}</td>
+    </tr>
+    <tr>
+        <td><label for="{{ form.publisher.id_for_label }}" class="control-label"><i class="fas fa-paper-plane"></i>Éditeur</label></td>
+        <td>{{ form.publisher }}</td>
+    </tr>
+    <tr>
+        <td><label for="{{ form.playing_time.id_for_label }}" class="control-label"><i class="fas fa-stopwatch"></i>Temps de jeu</label></td>
+        <td>{{ form.playing_time }}</td>
+    </tr>
+    <tr>
+      <td><label for="{{ form.player_number.id_for_label }}" class="control-label"><i class="fas fa-users"></i>Nombre de joueurs</label></td>
+      <td>{{ form.player_number }}</td>
+    </tr>
+    <tr>
+      <td><label for="{{ form.age.id_for_label }}" class="control-label"><i class="fas fa-baby"></i><i class="fas fa-child"></i><i class="fas fa-male"></i>Age</label></td>
+      <td>{{ form.age }}</td>
+    </tr>
+    <tr>
+      <td><label for="{{ form.language.id_for_label }}" class="control-label"><i class="fas fa-language"></i>Langue<br>
+        <span class="advice">(Les jeux seront écrits dans au moins une de ces langues)<br> (pas de filtre si rien n'est coché)</span></label></td>
+      <td class="row" ><div class="container search_option">
+        {% for field in form.language %}
+        <label class="checkbox-inline" for="{{field.auto_id}}">{{field.label}}</label>{{ field }}
+        {% endfor %}
+      </div></td>
+    </tr>
+    <tr>
+      <td><label for="{{ form.game_type_choice.id_for_label }}" class="control-label"><i class="fas fa-chess-knight"></i>Type de jeu<br>
+        <span class="advice">(Les jeux possèderont au moins un des types de jeux cochés)<br>(pas de filtre si rien n'est coché)</span></label></td>
+      <td class="row" ><div class="container search_option">
+        {% for field in form.game_type_choice%}
+        <label class="checkbox-inline search_option" for="{{field.auto_id}}">{{field.label}}</label>{{ field }}
+        {% endfor %}
+
+      </div></td>
+    </tr>
+    <tr>
+        <td><label for="{{ form.difficulty.id_for_label }}" class="control-label"><i class="fas fa-signal"></i>Difficulté<br>
+        <span class="advice">(Les jeux seront dans une de ces catégories de difficulté)<br>(pas de filtre si rien n'est coché)</span></label></td>
+        <td class="row" ><div class="container search_option">
+          {% for field in form.difficulty %}
+          <label for="{{field.auto_id}}" class="checkbox-inline search_option">{{field.label}}</label>{{field}}
+          {% endfor %}
+        </div>
+        </td>
+    </tr>
+    <tr>
+        <td><label for="{{ form.tag.id_for_label }}" class="control-label"><i class="fas fa-tags"></i>Étiquettes<br>
+          <span class="advice">(Le jeu doit contenir toutes ces étiquettes)</span></label></td>
+
+      <td class="row" ><div class="container search_option">
+        {% for field in form.tag %}
+        <label for="{{field.auto_id}}" class="checkbox-inline search_option">{{field.label}}</label>{{field}}
+        {% endfor %}
+      </div>
+      </td>
+    </tr>
+    </tbody>
+      </table>
+    <div class="text-center">
+      <button type="submit" id="advanced" class="btn btn-success">Lancer la divination</button>
+    </div>
+  </form>
+
+
+{% endblock %}
