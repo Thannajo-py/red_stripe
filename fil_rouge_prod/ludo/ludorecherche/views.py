@@ -89,6 +89,24 @@ def search_page(request):
     return render(request, 'ludorecherche/search_page.html', context)
 
 
+def extend_number_of_player(game):
+    all_add_ons = Add_on.objects.filter(game__pk=game.pk)
+    minimum_player = game.player_min if game.player_min else 0
+    maximum_player = game.player_max if game.player_max else 999
+    for add_on in all_add_ons:
+        if add_on.player_min < minimum_player:
+            minimum_player = add_on.player_min
+        if add_on.player_max > maximum_player:
+            maximum_player = add_on.player_max
+    all_multi_add_ons = Multi_add_on.objects.filter(games__pk=game.pk)
+    for add_on in all_multi_add_ons:
+        if add_on.player_min < minimum_player:
+            minimum_player = add_on.player_min
+        if add_on.player_max > maximum_player:
+            maximum_player = add_on.player_max
+    return minimum_player, maximum_player
+
+
 def search(request):
     query = request.GET.get('query')
     if not query:
@@ -130,24 +148,6 @@ def not_present_on_query_or_valid(element, group):
         return True if not group or element.name in group else False
     except AttributeError:
         return True
-
-
-def extend_number_of_player(game):
-    all_add_ons = Add_on.objects.filter(game__pk=game.pk)
-    minimum_player = game.player_min if game.player_min else 0
-    maximum_player = game.player_max if game.player_max else 999
-    for add_on in all_add_ons:
-        if add_on.player_min < minimum_player:
-            minimum_player = add_on.player_min
-        if add_on.player_max > maximum_player:
-            maximum_player = add_on.player_max
-    all_multi_add_ons = Multi_add_on.objects.filter(games__pk=game.pk)
-    for add_on in all_multi_add_ons:
-        if add_on.player_min < minimum_player:
-            minimum_player = add_on.player_min
-        if add_on.player_max > maximum_player:
-            maximum_player = add_on.player_max
-    return minimum_player, maximum_player
 
 
 def all_tags_present(game, query_tags):
