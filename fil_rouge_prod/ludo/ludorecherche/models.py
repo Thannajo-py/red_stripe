@@ -101,7 +101,7 @@ class Game(models.Model):
         return f'{self.name}'
 
 
-class Add_on(models.Model):
+class AddOn(models.Model):
     name = models.CharField('nom', max_length=200, unique=True)
     player_min = models.IntegerField('nombre de joueur minimum', null=True, blank=True)
     player_max = models.IntegerField('nombre de joueur maximum', null=True, blank=True)
@@ -128,7 +128,7 @@ class Add_on(models.Model):
         return f'{self.name}'
 
 
-class Multi_add_on(models.Model):
+class MultiAddOn(models.Model):
     name = models.CharField('nom', max_length=200, unique=True)
     player_min = models.IntegerField('nombre de joueur minimum', null=True, blank=True)
     player_max = models.IntegerField('nombre de joueur maximum', null=True, blank=True)

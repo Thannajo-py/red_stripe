@@ -1,5 +1,8 @@
 from django.urls import path, re_path
+
+
 from . import views
+
 
 app_name = "ludorecherche"
 urlpatterns = [
@@ -20,6 +23,7 @@ urlpatterns = [
     re_path(r'^designer_(?P<designer_pk>[0-9]+)/$', views.designer_game_list, name='designer_game_list'),
     re_path(r'^artist_(?P<artist_pk>[0-9]+)/$', views.artist_game_list, name='artist_game_list'),
     re_path(r'^publisher_(?P<publisher_pk>[0-9]+)/$', views.publisher_game_list, name='publisher_game_list'),
-    re_path(r'^game_type_(?P<game_type_pk>[0-9]+)/$', views.game_type_game_list, name='game_type_game_list'),
+    re_path(r'^playing_mode_(?P<playing_mode_pk>[0-9]+)/$', views.playing_mode_game_list,
+            name='playing_mode_game_list'),
     re_path(r'^tag_(?P<tag_pk>[0-9]+)/$', views.tag_game_list, name='tag_game_list'),
 ]

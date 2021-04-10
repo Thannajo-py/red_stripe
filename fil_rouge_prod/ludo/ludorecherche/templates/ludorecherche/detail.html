@@ -45,15 +45,15 @@
                 {% endfor %}
             </ul>
         {% endif %}
-        {% if kinds|length_is:"0"%}
+        {% if playing_mode|length_is:"0"%}
         {%else%}
             <h3><i class="fas fa-chess-knight"></i>Jeu de type:</h3>
         {%endif%}
-        {% if kinds|length_is:"0"%}
+        {% if playing_modes|length_is:"0"%}
         {%else%}
-            <ul class="type">
-                {% for kind in kinds %}
-                    <li><a href="{% url 'ludorecherche:game_type_game_list' game_type_pk=kind.pk %}"><h3 class="type">{{kind}}</h3></a></li>
+            <ul class="playing_mode">
+                {% for playing_mode in playing_modes %}
+                    <li><a href="{% url 'ludorecherche:playing_mode_game_list' playing_mode_pk=playing_mode.pk %}"><h3 class="playing_mode">{{playing_mode}}</h3></a></li>
                 {% endfor %}
             </ul>
         {% endif %}

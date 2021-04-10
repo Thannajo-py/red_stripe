@@ -1,6 +1,10 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Game, Add_on, Multi_add_on, Designer, Artist, Publisher, PlayingMode, Tag
 from random import randint
+
+
+from django.shortcuts import render, get_object_or_404
+
+
+from .models import Game, AddOn, MultiAddOn, Designer, Artist, Publisher, PlayingMode, Tag
 from .forms import SearchAdvForm
 
 
@@ -23,12 +27,12 @@ def list_all(request):
 
 def detail(request, game_pk):
     game = get_object_or_404(Game, pk=game_pk)
-    add_ons = Add_on.objects.filter(game__name__icontains=game.name)
-    multi_add_ons = Multi_add_on.objects.filter(games__name__icontains=game.name)
+    add_ons = AddOn.objects.filter(game__name__icontains=game.name)
+    multi_add_ons = MultiAddOn.objects.filter(games__name__icontains=game.name)
     artists = [artist for artist in game.artists.all()]
     designers = [designer for designer in game.designers.all()]
     publishers = [publisher for publisher in game.publishers.all()]
-    kinds = [kind for kind in game.playing_mode.all()]
+    playing_modes = [playing_mode for playing_mode in game.playing_mode.all()]
     tags = [tag for tag in game.tag.all()]
     # give the difficulty symbol his color
     if game.difficulty:
@@ -43,7 +47,7 @@ def detail(request, game_pk):
         'publishers': publishers,
         'color': color,
         'add_ons': add_ons,
-        'kinds': kinds,
+        'playing_modes': playing_modes,
         'tags': tags,
         'multi_add_ons': multi_add_ons,
     }
@@ -51,11 +55,11 @@ def detail(request, game_pk):
 
 
 def add_on_detail(request, add_on_pk):
-    add_on = get_object_or_404(Add_on, pk=add_on_pk)
+    add_on = get_object_or_404(AddOn, pk=add_on_pk)
     artists = [artist for artist in add_on.artists.all()]
     designers = [designer for designer in add_on.designers.all()]
     publishers = [publisher for publisher in add_on.publishers.all()]
-    kinds = [kind for kind in add_on.playing_mode.all()]
+    playing_modes = [playing_mode for playing_mode in add_on.playing_mode.all()]
     game = add_on.game
     # give the difficulty symbol his color
     if add_on.difficulty:
@@ -69,7 +73,7 @@ def add_on_detail(request, add_on_pk):
         'artists': artists,
         'publishers': publishers,
         'color': color,
-        'kinds': kinds,
+        'playing_modes': playing_modes,
         'link_game': game,
     }
     return render(request, 'ludorecherche/detail.html', context)
@@ -90,7 +94,7 @@ def search_page(request):
 
 
 def extend_number_of_player(game):
-    all_add_ons = Add_on.objects.filter(game__pk=game.pk)
+    all_add_ons = AddOn.objects.filter(game__pk=game.pk)
     minimum_player = game.player_min if game.player_min else 0
     maximum_player = game.player_max if game.player_max else 999
     for add_on in all_add_ons:
@@ -98,7 +102,7 @@ def extend_number_of_player(game):
             minimum_player = add_on.player_min
         if add_on.player_max > maximum_player:
             maximum_player = add_on.player_max
-    all_multi_add_ons = Multi_add_on.objects.filter(games__pk=game.pk)
+    all_multi_add_ons = MultiAddOn.objects.filter(games__pk=game.pk)
     for add_on in all_multi_add_ons:
         if add_on.player_min < minimum_player:
             minimum_player = add_on.player_min
@@ -192,7 +196,7 @@ def get_data_or_default(expression, value, default_value):
 def advanced_search(request):
     form = SearchAdvForm(request.GET)
     language = get_data_list_or_default(form.data.getlist, 'language', [])
-    query_game_playing_mode = get_data_list_or_default(form.data.getlist, 'game_type_choice', [])
+    query_game_playing_mode = get_data_list_or_default(form.data.getlist, 'playing_mode_choice', [])
     difficulty = get_data_list_or_default(form.data.getlist, 'difficulty', [])
     age = get_data_or_default(form.data, 'age', "")
     age = age if age else 999
@@ -222,7 +226,7 @@ def advanced_search(request):
                 and not_present_on_query_or_valid(game.difficulty, difficulty)\
                 and (not player or player and minimum_player <= int(player_number) <= maximum_player) \
                 and (not time or time and ((game.by_player and int(player_number) * game.max_time <= int(playing_time))
-                or (not game.by_player and game.max_time <= int(playing_time)))) \
+                                           or (not game.by_player and game.max_time <= int(playing_time)))) \
                 and ((game.age and int(age) >= game.age) or not game.age)\
                 and not_present_on_query_or_valid(game.language, language) \
                 and any_game_playing_mode_present(game, query_game_playing_mode):
@@ -246,11 +250,11 @@ def error500(request):
 
 
 def multi_add_on_detail(request, multi_add_on_pk):
-    multi_add_on = get_object_or_404(Multi_add_on, pk=multi_add_on_pk)
+    multi_add_on = get_object_or_404(MultiAddOn, pk=multi_add_on_pk)
     artists = [artist for artist in multi_add_on.artists.all()]
     designers = [designer for designer in multi_add_on.designers.all()]
     publishers = [publisher for publisher in multi_add_on.publishers.all()]
-    kinds = [kind for kind in multi_add_on.playing_mode.all()]
+    playing_modes = [playing_mode for playing_mode in multi_add_on.playing_mode.all()]
     games = [game for game in multi_add_on.games.all()]
     # give the difficulty symbol his color
     if multi_add_on.difficulty:
@@ -264,7 +268,7 @@ def multi_add_on_detail(request, multi_add_on_pk):
         'artists': artists,
         'publishers': publishers,
         'color': color,
-        'kinds': kinds,
+        'playing_modes': playing_modes,
         'games': games,
     }
     return render(request, 'ludorecherche/detail.html', context)
@@ -303,10 +307,10 @@ def publisher_game_list(request, publisher_pk):
     return render(request, 'ludorecherche/search_result.html', context)
 
 
-def game_type_game_list(request, game_type_pk):
-    game_type = get_object_or_404(PlayingMode, pk=game_type_pk)
-    games = Game.objects.filter(playing_mode=game_type)
-    title = f"Liste des jeux de type {game_type.name}"
+def playing_mode_game_list(request, playing_mode_pk):
+    playing_mode = get_object_or_404(PlayingMode, pk=playing_mode_pk)
+    games = Game.objects.filter(playing_mode=playing_mode)
+    title = f"Liste des jeux de type {playing_mode.name}"
     context = {
         'games': games,
         'title': title,

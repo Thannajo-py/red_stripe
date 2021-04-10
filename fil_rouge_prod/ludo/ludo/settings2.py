@@ -26,7 +26,6 @@ SECRET_KEY = 'your_secret_key'
 DEBUG = True
 
 
-
 ALLOWED_HOSTS = ['127.0.0.1']
 
 
@@ -79,9 +78,9 @@ WSGI_APPLICATION = 'ludo.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql', # on utilise l'adaptateur postgresql
-        'NAME': 'your_db_name', # le nom de notre base de donnees creee precedemment
-        'USER': 'your_user', # attention : remplacez par votre nom d'utilisateur
+        'ENGINE': 'django.db.backends.postgresql',  # on utilise l'adaptateur postgresql
+        'NAME': 'your_db_name',  # le nom de notre base de donnees creee precedemment
+        'USER': 'your_user',  # attention : remplacez par votre nom d'utilisateur
         'PASSWORD': 'your_password',
         'HOST': 'your_host',
         'PORT': 'your_port',
