@@ -5,7 +5,7 @@ from.models import Language, PlayingMode, Difficulty, Tag
 
 
 LANGUAGES_CHOICES = [(language.name, language.name) for language in Language.objects.all()]
-GAME_TYPE_CHOICES = [(playing_mode.name, playing_mode.name) for playing_mode in PlayingMode.objects.all()]
+PLAYING_MODE_CHOICES = [(playing_mode.name, playing_mode.name) for playing_mode in PlayingMode.objects.all()]
 DIFFICULTY_CHOICES = [(difficulty.name, difficulty.name) for difficulty in Difficulty.objects.all()]
 TAG_CHOICES = [(tag.name, tag.name) for tag in Tag.objects.all()]
 
@@ -25,4 +25,4 @@ class SearchAdvForm(forms.Form):
     language = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={'class': 'select'}),
                                          choices=LANGUAGES_CHOICES)
     playing_mode_choice = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={'class': 'select'}),
-                                                    choices=GAME_TYPE_CHOICES)
+                                                    choices=PLAYING_MODE_CHOICES)

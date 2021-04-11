@@ -66,7 +66,8 @@ class PlayingMode(models.Model):
     name = models.CharField('nom', max_length=200, unique=True)
 
     class Meta:
-        verbose_name = "type"
+        verbose_name = "mode de jeu"
+        verbose_name_plural = 'modes de jeux'
 
     def __str__(self):
         return self.name

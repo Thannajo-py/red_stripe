@@ -43,12 +43,12 @@ class AddOnDetailPageTestCase(TestCase):
         self.add_on.game = test_game
         self.game_id = Game.objects.get(name='the_test_game').pk
 
-    def test_detail_page_returns_404(self):
+    def test_add_on_detail_page_returns_404(self):
         add_on_id = self.add_on.pk + 999
         response = self.client.get(reverse('ludorecherche:add_on_detail', args=(add_on_id,)))
         self.assertEqual(response.status_code, 404)
 
-    def test_detail_page_returns_200(self):
+    def test_add_on_detail_page_returns_200(self):
         add_on_id = self.add_on.pk
         response = self.client.get(reverse('ludorecherche:add_on_detail', args=(add_on_id,)))
         self.assertEqual(response.status_code, 200)
@@ -95,12 +95,12 @@ class MultiAddOnDetailPageTestCase(TestCase):
         MultiAddOn.objects.create(name='the_test_add_on')
         self.multi_add_on = MultiAddOn.objects.get(name='the_test_add_on')
 
-    def test_detail_page_returns_404(self):
+    def test_multi_add_on_detail_page_returns_404(self):
         multi_add_on_id = self.multi_add_on.pk + 999
         response = self.client.get(reverse('ludorecherche:multi_add_on_detail', args=(multi_add_on_id,)))
         self.assertEqual(response.status_code, 404)
 
-    def test_detail_page_returns_200(self):
+    def test_multi_add_on_detail_page_returns_200(self):
         multi_add_on_id = self.multi_add_on.pk
         response = self.client.get(reverse('ludorecherche:multi_add_on_detail', args=(multi_add_on_id,)))
         self.assertEqual(response.status_code, 200)
@@ -111,11 +111,11 @@ class DesignerListPageTestCase(TestCase):
         Designer.objects.create(name='test_designer')
         self.designer = Designer.objects.get(name='test_designer')
 
-    def test_detail_page_returns_200(self):
+    def test_designer_game_list_page_returns_200(self):
         response = self.client.get(reverse('ludorecherche:designer_game_list', args=(self.designer.pk,)))
         self.assertEqual(response.status_code, 200)
 
-    def test_detail_page_returns_404(self):
+    def test_designer_game_list_page_returns_404(self):
         response = self.client.get(reverse('ludorecherche:designer_game_list', args=(self.designer.pk+1,)))
         self.assertEqual(response.status_code, 404)
 
@@ -125,11 +125,11 @@ class ArtistListPageTestCase(TestCase):
         Artist.objects.create(name='test_artist')
         self.artist = Artist.objects.get(name='test_artist')
 
-    def test_detail_page_returns_200(self):
+    def test_artist_game_list_page_returns_200(self):
         response = self.client.get(reverse('ludorecherche:artist_game_list', args=(self.artist.pk,)))
         self.assertEqual(response.status_code, 200)
 
-    def test_detail_page_returns_404(self):
+    def test_artist_game_list_page_returns_404(self):
         response = self.client.get(reverse('ludorecherche:artist_game_list', args=(self.artist.pk+1,)))
         self.assertEqual(response.status_code, 404)
 
@@ -139,11 +139,11 @@ class PublisherListPageTestCase(TestCase):
         Publisher.objects.create(name='test_publisher')
         self.publisher = Publisher.objects.get(name='test_publisher')
 
-    def test_detail_page_returns_200(self):
+    def test_publisher_game_list_page_returns_200(self):
         response = self.client.get(reverse('ludorecherche:publisher_game_list', args=(self.publisher.pk,)))
         self.assertEqual(response.status_code, 200)
 
-    def test_detail_page_returns_404(self):
+    def test_publisher_game_list_page_returns_404(self):
         response = self.client.get(reverse('ludorecherche:artist_game_list', args=(self.publisher.pk+1,)))
         self.assertEqual(response.status_code, 404)
 
@@ -153,24 +153,24 @@ class TagListPageTestCase(TestCase):
         Tag.objects.create(name='test_tag')
         self.tag = Tag.objects.get(name='test_tag')
 
-    def test_detail_page_returns_200(self):
+    def test_tag_game_list_page_returns_200(self):
         response = self.client.get(reverse('ludorecherche:tag_game_list', args=(self.tag.pk,)))
         self.assertEqual(response.status_code, 200)
 
-    def test_detail_page_returns_404(self):
+    def test_tag_game_list_page_returns_404(self):
         response = self.client.get(reverse('ludorecherche:tag_game_list', args=(self.tag.pk+1,)))
         self.assertEqual(response.status_code, 404)
 
 
-class GameTypeListPageTestCase(TestCase):
+class PlayingModeListPageTestCase(TestCase):
     def setUp(self):
         PlayingMode.objects.create(name='test_playing_mode')
         self.playing_mode = PlayingMode.objects.get(name='test_playing_mode')
 
-    def test_detail_page_returns_200(self):
+    def test_playing_mode_list_page_returns_200(self):
         response = self.client.get(reverse('ludorecherche:playing_mode_game_list', args=(self.playing_mode.pk,)))
         self.assertEqual(response.status_code, 200)
 
-    def test_detail_page_returns_404(self):
+    def test_playing_mode_list_page_returns_404(self):
         response = self.client.get(reverse('ludorecherche:playing_mode_game_list', args=(self.playing_mode.pk+1,)))
         self.assertEqual(response.status_code, 404)
