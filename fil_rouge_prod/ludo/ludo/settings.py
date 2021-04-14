@@ -18,9 +18,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'your_secret_key'
+FIL_ROUGE = os.environ['FIL_ROUGE']
+FIL_ROUGE_DB_USER = os.environ['FIL_ROUGE_DB_USER']
+FIL_ROUGE_DB_PASSWORD = os.environ['FIL_ROUGE_DB_PASSWORD']
+SECRET_KEY = FIL_ROUGE
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -79,11 +81,11 @@ WSGI_APPLICATION = 'ludo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',  # on utilise l'adaptateur postgresql
-        'NAME': 'your_db_name',  # le nom de notre base de donnees creee precedemment
-        'USER': 'your_user',  # attention : remplacez par votre nom d'utilisateur
-        'PASSWORD': 'your_password',
-        'HOST': 'your_host',
-        'PORT': 'your_port',
+        'NAME': 'fil_rouge',  # le nom de notre base de donnees creee precedemment
+        'USER': FIL_ROUGE_DB_USER,  # attention : remplacez par votre nom d'utilisateur
+        'PASSWORD': FIL_ROUGE_DB_PASSWORD,
+        'HOST': 'Localhost',
+        'PORT': '5432',
     }
 }
 
