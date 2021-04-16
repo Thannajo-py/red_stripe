@@ -1,5 +1,6 @@
 from django.urls import path, re_path
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 from . import views
 
@@ -26,4 +27,4 @@ urlpatterns = [
     re_path(r'^playing_mode_(?P<playing_mode_pk>[0-9]+)/$', views.playing_mode_game_list,
             name='playing_mode_game_list'),
     re_path(r'^tag_(?P<tag_pk>[0-9]+)/$', views.tag_game_list, name='tag_game_list'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

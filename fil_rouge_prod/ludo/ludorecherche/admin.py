@@ -15,17 +15,21 @@ class MultiAddOnGameInline(admin.TabularInline):
 class GameAdmin(admin.ModelAdmin):
     search_fields = ['name']
     inlines = [MultiAddOnGameInline, ]
+    list_display = ['name',]
+    ordering = ['name']
 
 
 @admin.register(Language)
 class LanguageAdmin(admin.ModelAdmin):
     search_fields = ['name']
-
+    list_display = ('name',)
+    ordering = ['name']
 
 @admin.register(PlayingMode)
 class PlayingModeAdmin(admin.ModelAdmin):
     search_fields = ['name']
-
+    list_display = ('name',)
+    ordering = ['name']
 
 class DesignerMultiAddOnInline(admin.TabularInline):
     model = MultiAddOn.designers.through
@@ -52,7 +56,8 @@ class DesignerGameInline(admin.TabularInline):
 class DesignerAdmin(admin.ModelAdmin):
     search_fields = ['name']
     inlines = [DesignerGameInline, DesignerAddOnInline, DesignerMultiAddOnInline, ]
-
+    list_display = ('name',)
+    ordering = ['name']
 
 class ArtistGameInline(admin.TabularInline):
     model = Game.artists.through
@@ -79,22 +84,27 @@ class ArtistMultiAddOnInline(admin.TabularInline):
 class ArtistAdmin(admin.ModelAdmin):
     search_fields = ['name']
     inlines = [ArtistAddOnInline, ArtistMultiAddOnInline, ArtistGameInline, ]
+    list_display = ('name',)
+    ordering = ['name']
 
 
 @admin.register(Publisher)
 class PublisherAdmin(admin.ModelAdmin):
     search_fields = ['name']
-
+    list_display = ('name',)
+    ordering = ['name']
 
 @admin.register(AddOn)
 class AddOnAdmin(admin.ModelAdmin):
     search_fields = ['name']
-
+    list_display = ('name',)
+    ordering = ['name']
 
 @admin.register(Difficulty)
 class DifficultyAdmin(admin.ModelAdmin):
     search_fields = ['name']
-
+    list_display = ('name',)
+    ordering = ['name']
 
 class GameTagInline(admin.TabularInline):
     model = Game.tag.through
@@ -107,8 +117,11 @@ class GameTagInline(admin.TabularInline):
 class TagAdmin(admin.ModelAdmin):
     search_fields = ['name']
     inlines = [GameTagInline, ]
-
+    list_display = ('name',)
+    ordering = ['name']
 
 @admin.register(MultiAddOn)
 class MultiAddOnAdmin(admin.ModelAdmin):
     search_fields = ['name']
+    list_display = ('name',)
+    ordering = ['name']

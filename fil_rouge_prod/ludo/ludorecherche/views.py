@@ -126,7 +126,7 @@ def search(request):
             kinds = " ".join([kind.name.lower() for kind in game.playing_mode.all()])
             tags = " ".join([tag.name.lower() for tag in game.tag.all()])
             minimum_player, maximum_player = extend_number_of_player(game)
-            if minimum_player <= int(query) <= maximum_player:
+            if query.isnumeric() and minimum_player <= int(query) <= maximum_player:
                 games += [game]
                 continue
             # check if the game correspond to any of the criteria:

@@ -1,13 +1,14 @@
 {% if games|length_is:"0" %}
-
-<div class="text-center"><h3>Ce trésor est bien vide....</h3><img class='col-9' src="../../static/ludorecherche/img/empty_treasure.jpg" alt="un trésor vide"></div>
+{% load static %}
+<div class="text-center"><h3>Ce trésor est bien vide....</h3><img class='col-9' src="{% static 'ludorecherche/img/'%}empty_treasure.jpg" alt="un trésor vide"></div>
 
 {% else %}
+
 <div class="container-fluid">
     <div class="row">
     {% for game in games %}
         <div class="col-4 text-center">
-              <img class="img-responsive img-thumbnail list" src="../../static/ludorecherche/{{ game.picture }}" alt="{{ game.name }}">
+              <img class="img-responsive img-thumbnail list" src="{% static 'ludorecherche/img/'%}{{ game.picture }}" alt="{{ game.name }}">
             <h3><a href="{% url 'ludorecherche:detail' game_pk=game.pk %}">{{ game.name }}</a></h3>
             {% for designer in game.designers.all %}
                 <p>{{ designer.name }}</p>

@@ -1,8 +1,9 @@
 {% extends 'ludorecherche/base.html' %}
 {% block content %}
+{% load static %}
 <h1><b>{{variable.name}}</b></h1>
     <div class="container-fluid">
-        <img class="col-8" alt="{{variable.name}}" src="../../static/ludorecherche/{{variable.picture}}">
+        <img class="col-8" alt="{{variable.name}}" src="{% static 'ludorecherche/img/' %}{{variable.picture}}">
         {% if designers|length_is:"0"%}
         {% elif designers|length_is:"1"%}
             <h3 class="designer"><b><i class="fas fa-user-edit"></i>Auteur:</b></h3>
