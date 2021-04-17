@@ -1,6 +1,6 @@
 {% if games|length_is:"0" %}
 {% load static %}
-<div class="text-center"><h3>Ce trésor est bien vide....</h3><img class='col-9' src="{% static 'ludorecherche/img/'%}empty_treasure.jpg" alt="un trésor vide"></div>
+<div class="text-center"><h3>{{interface.theme.empty_query_text}}</h3><img class='col-9' src="{% static 'ludorecherche/img/'%}{{interface.theme.empty_query_image}}" alt="un trésor vide"></div>
 
 {% else %}
 

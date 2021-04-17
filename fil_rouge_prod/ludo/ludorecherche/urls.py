@@ -5,8 +5,12 @@ from django.conf.urls.static import static
 from . import views
 
 
+
+
 app_name = "ludorecherche"
 urlpatterns = [
+    path('404/', views.error_404, name='error_404'),
+    path('500/', views.error_500, name='error_500'),
     path('', views.index, name='index'),
     path('list_all/', views.list_all, name='list_all'),
     re_path(r'^(?P<game_pk>[0-9]+)/$', views.detail, name='detail'),
@@ -15,10 +19,6 @@ urlpatterns = [
     path('search_page/', views.search_page, name='search_page'),
     re_path(r'^add_on_(?P<add_on_pk>[0-9]+)/$', views.add_on_detail, name='add_on_detail'),
     path('advanced_search/', views.advanced_search, name="advanced_search"),
-    # for seeing page404 error while debug=true
-    path('error404/', views.error404, name='error404'),
-    # for seeing page500 error while debug=true
-    path('error500/', views.error500, name='error500'),
     re_path(r'^multi_add_on_(?P<multi_add_on_pk>[0-9]+)/$', views.multi_add_on_detail, name='multi_add_on_detail'),
     re_path(r'^add_on_(?P<add_on_pk>[0-9]+)/$', views.add_on_detail, name='add_on_detail'),
     re_path(r'^designer_(?P<designer_pk>[0-9]+)/$', views.designer_game_list, name='designer_game_list'),

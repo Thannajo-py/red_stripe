@@ -1,6 +1,6 @@
 {% extends 'ludorecherche/base.html' %}
 {% block content %}
-<h1>Bienvenue!</h1>
-<h2>Vos derniers trésors:</h2>
+<h1>{{interface.theme.index_title}}</h1>
+<h2>{{interface.theme.index_text}}</h2>
 {% include 'ludorecherche/list.html' %}
 {% endblock %}

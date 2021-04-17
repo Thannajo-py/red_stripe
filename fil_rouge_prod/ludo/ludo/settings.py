@@ -26,7 +26,7 @@ FIL_ROUGE_DB_PASSWORD = os.environ['FIL_ROUGE_DB_PASSWORD']
 SECRET_KEY = FIL_ROUGE
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
@@ -128,4 +128,5 @@ USE_TZ = True
 if DEBUG:
     STATIC_URL = '/static/'
 else:
-    STATIC_URL = 'http://172.21.197.23/'
+    STATIC_URL = 'http://172.30.32.21/'
+STATIC_ROOT = '/static/'

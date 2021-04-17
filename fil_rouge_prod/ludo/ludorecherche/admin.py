@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 
-from .models import Game, Designer, Artist, Publisher, AddOn, Language, PlayingMode, Difficulty, Tag, MultiAddOn
+from .models import Game, Designer, Artist, Publisher, AddOn, Language, PlayingMode, \
+    Difficulty, Tag, MultiAddOn, Theme, Background
 
 
 class MultiAddOnGameInline(admin.TabularInline):
@@ -15,7 +16,7 @@ class MultiAddOnGameInline(admin.TabularInline):
 class GameAdmin(admin.ModelAdmin):
     search_fields = ['name']
     inlines = [MultiAddOnGameInline, ]
-    list_display = ['name',]
+    list_display = ['name', ]
     ordering = ['name']
 
 
@@ -25,11 +26,13 @@ class LanguageAdmin(admin.ModelAdmin):
     list_display = ('name',)
     ordering = ['name']
 
+
 @admin.register(PlayingMode)
 class PlayingModeAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ('name',)
     ordering = ['name']
+
 
 class DesignerMultiAddOnInline(admin.TabularInline):
     model = MultiAddOn.designers.through
@@ -58,6 +61,7 @@ class DesignerAdmin(admin.ModelAdmin):
     inlines = [DesignerGameInline, DesignerAddOnInline, DesignerMultiAddOnInline, ]
     list_display = ('name',)
     ordering = ['name']
+
 
 class ArtistGameInline(admin.TabularInline):
     model = Game.artists.through
@@ -94,17 +98,20 @@ class PublisherAdmin(admin.ModelAdmin):
     list_display = ('name',)
     ordering = ['name']
 
+
 @admin.register(AddOn)
 class AddOnAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ('name',)
     ordering = ['name']
 
+
 @admin.register(Difficulty)
 class DifficultyAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ('name',)
     ordering = ['name']
+
 
 class GameTagInline(admin.TabularInline):
     model = Game.tag.through
@@ -120,8 +127,29 @@ class TagAdmin(admin.ModelAdmin):
     list_display = ('name',)
     ordering = ['name']
 
+
 @admin.register(MultiAddOn)
 class MultiAddOnAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ('name',)
     ordering = ['name']
+
+
+@admin.register(Theme)
+class ThemeAdmin(admin.ModelAdmin):
+    search_fields = ['name']
+    list_display = ('name',)
+    ordering = ['name']
+
+
+@admin.register(Background)
+class BackgroundAdmin(admin.ModelAdmin):
+    search_fields = ['name']
+    list_display = ('name',)
+    ordering = ['name']
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False

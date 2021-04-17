@@ -21,6 +21,10 @@ from django.conf.urls.static import static
 from ludorecherche import views
 
 
+handler404 = views.handler404
+handler500 = views.handler500
+
+
 urlpatterns = [
     path('gm/', admin.site.urls),
     path('ludorecherche/', include('ludorecherche.urls', namespace='ludorecherche')),

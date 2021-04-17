@@ -1,0 +1,25 @@
+<style>
+        {% load static %}
+        @import url("{{interface.theme.font_link}}");
+        body {
+            background-image: url("{% static 'ludorecherche/img/' %}{{interface.theme.background_image}}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: {{interface.theme.color_main}};
+            font-family: {{interface.theme.font_name}};
+        }
+        nav,.box {
+            background-color: {{interface.theme.color_main}}b0;
+
+        }
+        #advanced {
+            background-color: {{interface.theme.color_2nd}};
+        }
+        a {
+            color: {{interface.theme.color_3rd}};
+        }
+        body,.nav-link{
+            color: {{interface.theme.color_4th}};
+        }
+</style>

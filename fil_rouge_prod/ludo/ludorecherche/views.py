@@ -1,31 +1,37 @@
 from random import randint
 
-
+from django.views.defaults import server_error
+from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 
 
-from .models import Game, AddOn, MultiAddOn, Designer, Artist, Publisher, PlayingMode, Tag
+from .models import Game, AddOn, MultiAddOn, Designer, Artist, Publisher, PlayingMode, Tag, Background
 from .forms import SearchAdvForm
 
 
 # Create your views here.
 def index(request):
+    interface = Background.objects.get(name='Interface')
     games = Game.objects.order_by('-created_at')[:12]
     context = {
-        'games': games
+        'games': games,
+        'interface': interface,
     }
     return render(request, 'ludorecherche/index.html', context)
 
 
 def list_all(request):
+    interface = Background.objects.get(name='Interface')
     games = Game.objects.order_by('-created_at')
     context = {
-        'games': games
+        'games': games,
+        'interface': interface,
     }
     return render(request, 'ludorecherche/list_all.html', context)
 
 
 def detail(request, game_pk):
+    interface = Background.objects.get(name='Interface')
     game = get_object_or_404(Game, pk=game_pk)
     add_ons = AddOn.objects.filter(game__name__icontains=game.name)
     multi_add_ons = MultiAddOn.objects.filter(games__name__icontains=game.name)
@@ -41,6 +47,7 @@ def detail(request, game_pk):
     else:
         color = 'blue'
     context = {
+        'interface': interface,
         'variable': game,
         'designers': designers,
         'artists': artists,
@@ -55,6 +62,7 @@ def detail(request, game_pk):
 
 
 def add_on_detail(request, add_on_pk):
+    interface = Background.objects.get(name='Interface')
     add_on = get_object_or_404(AddOn, pk=add_on_pk)
     artists = [artist for artist in add_on.artists.all()]
     designers = [designer for designer in add_on.designers.all()]
@@ -68,6 +76,7 @@ def add_on_detail(request, add_on_pk):
     else:
         color = 'blue'
     context = {
+        'interface': interface,
         'variable': add_on,
         'designers': designers,
         'artists': artists,
@@ -86,8 +95,10 @@ def lucky(request):
 
 
 def search_page(request):
+    interface = Background.objects.get(name='Interface')
     form = SearchAdvForm(request.GET)
     context = {
+        'interface': interface,
         'form': form,
     }
     return render(request, 'ludorecherche/search_page.html', context)
@@ -112,6 +123,7 @@ def extend_number_of_player(game):
 
 
 def search(request):
+    interface = Background.objects.get(name='Interface')
     query = request.GET.get('query')
     if not query:
         games = Game.objects.all()
@@ -139,8 +151,9 @@ def search(request):
                     or query.lower() in artists\
                     or query.lower() in publishers:
                 games += [game]
-    title = f"Résultats pour la quête du {query}"
+    title = f"Résultats pour {interface.theme.query_name} du {query}"
     context = {
+        'interface': interface,
         'games': games,
         'title': title
     }
@@ -194,6 +207,7 @@ def get_data_or_default(expression, value, default_value):
 
 
 def advanced_search(request):
+    interface = Background.objects.get(name='Interface')
     form = SearchAdvForm(request.GET)
     language = get_data_list_or_default(form.data.getlist, 'language', [])
     query_game_playing_mode = get_data_list_or_default(form.data.getlist, 'playing_mode_choice', [])
@@ -231,25 +245,17 @@ def advanced_search(request):
                 and not_present_on_query_or_valid(game.language, language) \
                 and any_game_playing_mode_present(game, query_game_playing_mode):
             games.append(game)
-    title = "Résultats pour votre quête avancée"
+    title = f"Résultats pour {interface.theme.query_name} avancée"
     context = {
+        'interface': interface,
         'title': title,
         'games': games,
     }
     return render(request, 'ludorecherche/search_result.html', context)
 
 
-# for seeing error 404 page while debug=True
-def error404(request):
-    return render(request, '404.html', )
-
-
-# for seeing error 500 page while debug=True
-def error500(request):
-    return render(request, '500.html', )
-
-
 def multi_add_on_detail(request, multi_add_on_pk):
+    interface = Background.objects.get(name='Interface')
     multi_add_on = get_object_or_404(MultiAddOn, pk=multi_add_on_pk)
     artists = [artist for artist in multi_add_on.artists.all()]
     designers = [designer for designer in multi_add_on.designers.all()]
@@ -263,6 +269,7 @@ def multi_add_on_detail(request, multi_add_on_pk):
     else:
         color = 'blue'
     context = {
+        'interface': interface,
         'variable': multi_add_on,
         'designers': designers,
         'artists': artists,
@@ -275,10 +282,12 @@ def multi_add_on_detail(request, multi_add_on_pk):
 
 
 def designer_game_list(request, designer_pk):
+    interface = Background.objects.get(name='Interface')
     designer = get_object_or_404(Designer, pk=designer_pk)
     games = Game.objects.filter(designers=designer)
     title = f"Liste des jeux de {designer.name}"
     context = {
+        'interface': interface,
         'games': games,
         'title': title,
     }
@@ -286,10 +295,12 @@ def designer_game_list(request, designer_pk):
 
 
 def artist_game_list(request, artist_pk):
+    interface = Background.objects.get(name='Interface')
     artist = get_object_or_404(Artist, pk=artist_pk)
     games = Game.objects.filter(artists=artist)
     title = f"Liste des jeux illustrés {artist.name}"
     context = {
+        'interface': interface,
         'games': games,
         'title': title,
     }
@@ -297,10 +308,12 @@ def artist_game_list(request, artist_pk):
 
 
 def publisher_game_list(request, publisher_pk):
+    interface = Background.objects.get(name='Interface')
     publisher = get_object_or_404(Publisher, pk=publisher_pk)
     games = Game.objects.filter(publishers=publisher)
     title = f"Liste des jeux publiés par {publisher.name}"
     context = {
+        'interface': interface,
         'games': games,
         'title': title,
     }
@@ -308,10 +321,12 @@ def publisher_game_list(request, publisher_pk):
 
 
 def playing_mode_game_list(request, playing_mode_pk):
+    interface = Background.objects.get(name='Interface')
     playing_mode = get_object_or_404(PlayingMode, pk=playing_mode_pk)
     games = Game.objects.filter(playing_mode=playing_mode)
     title = f"Liste des jeux de type {playing_mode.name}"
     context = {
+        'interface': interface,
         'games': games,
         'title': title,
     }
@@ -319,11 +334,43 @@ def playing_mode_game_list(request, playing_mode_pk):
 
 
 def tag_game_list(request, tag_pk):
+    interface = Background.objects.get(name='Interface')
     tag = get_object_or_404(Tag, pk=tag_pk)
     games = Game.objects.filter(tag=tag)
     title = f"Liste des jeux contenant l'étiquette {tag.name}"
     context = {
+        'interface': interface,
         'games': games,
         'title': title,
     }
     return render(request, 'ludorecherche/search_result.html', context)
+
+
+def handler404(request, exception):
+    interface = Background.objects.get(name='Interface')
+    context = {
+        'interface': interface,
+    }
+    return render(request, '404.html', context, status=404)
+
+
+def handler500(request):
+    interface = Background.objects.get(name='Interface')
+    context = {
+        'interface': interface,
+    }
+    return render(request, '500.html', context, status=500)
+
+def error_404(request):
+    interface = Background.objects.get(name='Interface')
+    context = {
+        'interface': interface,
+    }
+    return render(request, '404.html', context)
+
+def error_500(request):
+    interface = Background.objects.get(name='Interface')
+    context = {
+        'interface': interface,
+    }
+    return render(request, '500.html', context)
