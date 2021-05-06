@@ -1,6 +1,9 @@
 from django.db import models
 
 
+from colorfield.fields import ColorField
+
+
 class Designer(models.Model):
     name = models.CharField('nom', max_length=200, unique=True)
 
@@ -16,6 +19,28 @@ class Tag(models.Model):
 
     class Meta:
         verbose_name = "étiquette"
+
+    def __str__(self):
+        return self.name
+
+
+class Mechanism(models.Model):
+    name = models.CharField('nom', max_length=200, unique=True)
+
+    class Meta:
+        verbose_name = "mécanique associé"
+        verbose_name_plural = "mécaniques associés"
+
+    def __str__(self):
+        return self.name
+
+
+class Topic(models.Model):
+    name = models.CharField('nom', max_length=200, unique=True)
+
+    class Meta:
+        verbose_name = "Thème associé"
+        verbose_name_plural = "Thèmes associés"
 
     def __str__(self):
         return self.name
@@ -74,6 +99,7 @@ class PlayingMode(models.Model):
 
 class GameAddOnMultiAddOnCommonBase(models.Model):
     name = models.CharField('nom', max_length=200, unique=True)
+    english_name = models.CharField('nom anglais', max_length=200, unique=True,null=True, blank=True)
     player_min = models.IntegerField('nombre de joueur minimum', null=True, blank=True)
     player_max = models.IntegerField('nombre de joueur maximum', null=True, blank=True)
     playing_time = models.CharField('durée de jeu', max_length=50, null=True, blank=True)
@@ -89,6 +115,8 @@ class GameAddOnMultiAddOnCommonBase(models.Model):
     language = models.ForeignKey(Language, verbose_name='langue', on_delete=models.CASCADE,
                                  null=True, blank=True)
     age = models.IntegerField('âge', blank=True, null=True)
+    buying_price = models.IntegerField("prix d'achat", null=True, blank=True)
+    stock = models.IntegerField("Quantité", default=1)
 
     class Meta:
         abstract = True
@@ -98,6 +126,8 @@ class Game(GameAddOnMultiAddOnCommonBase):
     max_time = models.IntegerField('temps de jeu maximum', null=True, blank=True)
     by_player = models.BooleanField('temps de jeu défini par joueur ?', default=False)
     tag = models.ManyToManyField(Tag, verbose_name='étiquettes', related_name='games', blank=True)
+    mechanism = models.ManyToManyField(Mechanism, verbose_name='mécaniques associées', related_name='games', blank=True)
+    topic = models.ManyToManyField(Topic, verbose_name='thèmes associés', related_name='games', blank=True)
 
     class Meta:
         verbose_name = "jeu"
@@ -148,10 +178,10 @@ class Theme(models.Model):
     query_name = models.CharField('nom de la requête', max_length=200, blank=True)
     empty_query_text = models.TextField("texte requête vide ", blank=True)
     empty_query_image = models.CharField('image requête vide', max_length=200, blank=True)
-    color_main = models.CharField('couleur principale', max_length=200, blank=True)
-    color_2nd = models.CharField('couleur secondaire', max_length=200, blank=True)
-    color_3rd = models.CharField('couleur tertiaire', max_length=200, blank=True)
-    color_4th = models.CharField('couleur quaternaire', max_length=200, blank=True)
+    color_main = ColorField(default='#FF0000')
+    color_2nd = ColorField(default='#FF0000')
+    color_3rd = ColorField(default='#FF0000')
+    color_4th = ColorField(default='#FF0000')
 
     class Meta:
         verbose_name = "Thème"

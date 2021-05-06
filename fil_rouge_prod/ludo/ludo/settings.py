@@ -26,7 +26,7 @@ FIL_ROUGE_DB_PASSWORD = os.environ['FIL_ROUGE_DB_PASSWORD']
 SECRET_KEY = FIL_ROUGE
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'colorfield'
 ]
 
 MIDDLEWARE = [

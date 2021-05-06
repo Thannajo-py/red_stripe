@@ -44,10 +44,10 @@
       </div></td>
     </tr>
     <tr>
-      <td><label for="{{ form.game_type_choice.id_for_label }}" class="control-label"><i class="fas fa-chess-knight"></i>Type de jeu<br>
+      <td><label for="{{ form.playing_mode_choice.id_for_label }}" class="control-label"><i class="fas fa-chess-knight"></i>Type de jeu<br>
         <span class="advice">(Les jeux possèderont au moins un des types de jeux cochés)<br>(pas de filtre si rien n'est coché)</span></label></td>
       <td class="row" ><div class="container search_option">
-        {% for field in form.game_type_choice%}
+        {% for field in form.playing_mode_choice%}
         <label class="checkbox-inline search_option" for="{{field.auto_id}}">{{field.label}}</label>{{ field }}
         {% endfor %}
 

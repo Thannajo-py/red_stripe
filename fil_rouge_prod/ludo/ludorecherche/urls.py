@@ -27,4 +27,6 @@ urlpatterns = [
     re_path(r'^playing_mode_(?P<playing_mode_pk>[0-9]+)/$', views.playing_mode_game_list,
             name='playing_mode_game_list'),
     re_path(r'^tag_(?P<tag_pk>[0-9]+)/$', views.tag_game_list, name='tag_game_list'),
+    re_path(r'^mechanism_(?P<mechanism_pk>[0-9]+)/$', views.mechanism_game_list, name='mechanism_game_list'),
+    re_path(r'^topic_(?P<topic_pk>[0-9]+)/$', views.topic_game_list, name='topic_game_list'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

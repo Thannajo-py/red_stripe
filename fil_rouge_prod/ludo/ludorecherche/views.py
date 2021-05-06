@@ -5,7 +5,8 @@ from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 
 
-from .models import Game, AddOn, MultiAddOn, Designer, Artist, Publisher, PlayingMode, Tag, Background
+from .models import Game, AddOn, MultiAddOn, Designer, Artist, Publisher, PlayingMode, Tag, Background, Topic,\
+    Mechanism
 from .forms import SearchAdvForm
 
 
@@ -40,6 +41,8 @@ def detail(request, game_pk):
     publishers = [publisher for publisher in game.publishers.all()]
     playing_modes = [playing_mode for playing_mode in game.playing_mode.all()]
     tags = [tag for tag in game.tag.all()]
+    topics = [topic for topic in game.topic.all()]
+    mechanisms = [mechanism for mechanism in game.mechanism.all()]
     # give the difficulty symbol his color
     if game.difficulty:
         color = 'green' if game.difficulty.name.lower() in ['famille', 'ambiance'] \
@@ -56,6 +59,8 @@ def detail(request, game_pk):
         'add_ons': add_ons,
         'playing_modes': playing_modes,
         'tags': tags,
+        'mechanisms': mechanisms,
+        'topics': topics,
         'multi_add_ons': multi_add_ons,
     }
     return render(request, 'ludorecherche/detail.html', context)
@@ -240,7 +245,7 @@ def advanced_search(request):
                 and not_present_on_query_or_valid(game.difficulty, difficulty)\
                 and (not player or player and minimum_player <= int(player_number) <= maximum_player) \
                 and (not time or time and ((game.by_player and int(player_number) * game.max_time <= int(playing_time))
-                                           or (not game.by_player and game.max_time <= int(playing_time)))) \
+                                    or (not game.by_player and game.max_time and game.max_time <= int(playing_time)))) \
                 and ((game.age and int(age) >= game.age) or not game.age)\
                 and not_present_on_query_or_valid(game.language, language) \
                 and any_game_playing_mode_present(game, query_game_playing_mode):
@@ -346,6 +351,32 @@ def tag_game_list(request, tag_pk):
     return render(request, 'ludorecherche/search_result.html', context)
 
 
+def topic_game_list(request, topic_pk):
+    interface = Background.objects.get(name='Interface')
+    topic = get_object_or_404(Topic, pk=topic_pk)
+    games = Game.objects.filter(topic=topic)
+    title = f"Liste des jeux contenant l'étiquette {topic.name}"
+    context = {
+        'interface': interface,
+        'games': games,
+        'title': title,
+    }
+    return render(request, 'ludorecherche/search_result.html', context)
+
+
+def mechanism_game_list(request, mechanism_pk):
+    interface = Background.objects.get(name='Interface')
+    mechanism = get_object_or_404(Mechanism, pk=mechanism_pk)
+    games = Game.objects.filter(mechanism=mechanism)
+    title = f"Liste des jeux contenant l'étiquette {mechanism.name}"
+    context = {
+        'interface': interface,
+        'games': games,
+        'title': title,
+    }
+    return render(request, 'ludorecherche/search_result.html', context)
+
+
 def handler404(request, exception):
     interface = Background.objects.get(name='Interface')
     context = {
@@ -361,12 +392,14 @@ def handler500(request):
     }
     return render(request, '500.html', context, status=500)
 
+
 def error_404(request):
     interface = Background.objects.get(name='Interface')
     context = {
         'interface': interface,
     }
     return render(request, '404.html', context)
+
 
 def error_500(request):
     interface = Background.objects.get(name='Interface')

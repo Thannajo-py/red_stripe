@@ -80,6 +80,10 @@
         {% if variable.bgg_link %}
             <h3><a href="{{variable.bgg_link}}"><i class="fas fa-chess-board"></i>Lien vers Board Game Geek ou Tric Trac</a></h3>
         {% endif %}
+        <h3><a href="https://www.okkazeo.com/jeux/searchJeux?rech_nom={{variable.name}}"><i class="fas fa-chess-board"></i>Lien vers recherche Okkazeo</a></h3>
+        {% if variable.english_name %}
+        <h3><a href="https://bgc.moscow/bgg/?q={{variable.english_name}}"><i class="fas fa-chess-board"></i>Sleeve par bgg moscow</a></h3>
+        {% endif %}
         {% if games %}
             {% if games|length_is:"0" %}
             {% elif games|length_is:"1" %}
@@ -146,6 +150,38 @@
                 <ul class="tag">
                     {% for tag in tags %}
                         <li><a href="{% url 'ludorecherche:tag_game_list' tag_pk=tag.pk %}" ><h3 class="tag">{{tag}}</h3></a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endif %}
+        {% if topics %}
+            {% if topics|length_is:"0"%}
+            {% elif topics|length_is:"1"%}
+                <h3 class="tag"><b><i class="fas fa-tags"></i>Thème associé:</b></h3>
+            {% else %}
+                <h3 class="tag"><b><i class="fas fa-tags"></i>Thèmes associés:</b></h3>
+            {% endif %}
+            {% if topics|length_is:"0"%}
+            {%else%}
+                <ul class="tag">
+                    {% for topic in topics %}
+                        <li><a href="{% url 'ludorecherche:topic_game_list' topic_pk=topic.pk %}" ><h3 class="tag">{{topic}}</h3></a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endif %}
+        {% if mechanisms %}
+            {% if mechanisms|length_is:"0"%}
+            {% elif mechanisms|length_is:"1"%}
+                <h3 class="tag"><b><i class="fas fa-tags"></i>Mécanisme de jeu associée:</b></h3>
+            {% else %}
+                <h3 class="tag"><b><i class="fas fa-tags"></i>Mécanismes de jeu associées:</b></h3>
+            {% endif %}
+            {% if mechanisms|length_is:"0"%}
+            {%else%}
+                <ul class="tag">
+                    {% for mechanism in mechanisms %}
+                        <li><a href="{% url 'ludorecherche:mechanism_game_list' mechanism_pk=mechanism.pk %}" ><h3 class="tag">{{mechanism}}</h3></a></li>
                     {% endfor %}
                 </ul>
             {% endif %}

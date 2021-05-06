@@ -2,7 +2,7 @@ from django.contrib import admin
 
 
 from .models import Game, Designer, Artist, Publisher, AddOn, Language, PlayingMode, \
-    Difficulty, Tag, MultiAddOn, Theme, Background
+    Difficulty, Tag, MultiAddOn, Theme, Background, Topic, Mechanism
 
 
 class MultiAddOnGameInline(admin.TabularInline):
@@ -153,3 +153,33 @@ class BackgroundAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
+
+
+class GameTopicInline(admin.TabularInline):
+    model = Game.topic.through
+    extra = 1
+    verbose_name = "jeu"
+    verbose_name_plural = "jeux"
+
+
+@admin.register(Topic)
+class TopicAdmin(admin.ModelAdmin):
+    search_fields = ['name']
+    list_display = ('name',)
+    ordering = ['name']
+    inlines = [GameTopicInline, ]
+
+
+class GameMechanismInline(admin.TabularInline):
+    model = Game.mechanism.through
+    extra = 1
+    verbose_name = "jeu"
+    verbose_name_plural = "jeux"
+
+
+@admin.register(Mechanism)
+class MechanismAdmin(admin.ModelAdmin):
+    search_fields = ['name']
+    list_display = ('name',)
+    ordering = ['name']
+    inlines = [GameMechanismInline, ]
