@@ -9,42 +9,89 @@ AUTHOR NAME: JONATHAN AUDIFFREN
 #1b2021*/
 
 /*NAV*/
-.nav-link{
-    font-size:1em;
-}
 
 nav{
-    margin-bottom:10%;
     position: fixed;
     width:15%;
+    font-size: 2em;
+    padding:1%;
+    display: flex;
+    flex-direction: column;
+
 }
-.nav .nav-link{
-    font-size:250%;
+nav, section, footer{
+    border-radius:20px;
 }
+nav > a {
+    width:100%;
+}
+nav > a > button{
+    width:100%;
+    font-size:0.75em;
+    border-radius:20px;
+}
+nav > input{
+    width:100%;
+}
+
 /*BODY*/
-.box{
-    text-align: center;
-}
+
 h1,h2{
     font-size:6em;
     margin-top:5%;
     margin-bottom:10%;
+    text-align: center;
+}
+section {
+    margin-left: 20%;
+    margin-right: 10%;
+    margin-bottom: 10%;
+}
+section > div{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+}
+section > div > div{
+    text-align: center;
+    width:200px;
+}
+
+footer{
+    display:flex;
+    justify-content: center;
+    margin-top: 2%;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width:100vw;
+
+}
+footer > img{
+    width:50px;
+    height: fit-content;
+    align-self: center;
 }
 p{
     font-size:1.5em;
 }
 /*FOOTER*/
-.footer{
-    vertical-align: bottom;
-    margin-top:10%;
-    margin-bottom:10%;
-}
+
 #red_stripe{
     color: red;
 }
 
 ul{
     list-style-type: none;
+    margin:0px;
+    padding:0px;
+}
+
+#search_bar{
+    display:flex;
+    flex-direction: column;
 }
 .list{
     max-height: 150px;
@@ -57,10 +104,7 @@ ul{
     align-items: center;
     text-align: center !important;
 }
-.label_search{
-    font-size:1em;
-    padding: .5rem 1rem;
-}
+
 
 #advanced{
     border-radius: 50px;
@@ -80,8 +124,21 @@ ul{
     font-size:0.5em;
 }
 .search_option{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     font-size: 0.7em;
     padding:0%;
+
+}
+td > ul {
+    display:flex;
+    flex-wrap: wrap;
+}
+.search_option > label{
+    display: flex;
+    flex-direction: row;
+    align-self: center;
 }
 td{
     padding:1%;
@@ -89,6 +146,129 @@ td{
     line-height: 100%;
 
 }
-.logo{
-    max-width: 50px;
+
+.detail{
+    display:flex;
+    flex-direction: column;
+}
+.detail > img {
+    max-width: 100%;
+    max-height:100%;
+    align-self:center;
+}
+.image>img{
+    max-width: 100%;
+    max-height:100%;
+    align-self:center;
+
+}
+.image{
+    height:200px;
+    width:200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.detail > div {
+    display:flex;
+    flex-direction: column;
+    align-content: center;
+    width:100%;
+}
+h3{
+    font-size: 2em;
+}
+.search_button{
+    text-align: center;
+
+}
+
+input[type='text'],input[type='number']{
+    width:90%;
+    height:50px;
+    font-size: 30px;
+}
+input[type='checkbox']{
+    width:40px;
+    height:40px;
+}
+@media only screen and (max-width: 1400px){
+    nav{
+        flex-direction: row;
+        top:0;
+        left:0;
+        width:100vw;
+    }
+    #search_bar{
+        flex-direction: row;
+    }
+    nav > a{
+        width:15vw;
+    }
+    nav > a > button {
+        height:100%;
+    }
+    #searchForm{
+        height:50%;
+        width:15vw;
+    }
+    form#search_bar > input, form#search_bar > label{
+        margin: auto;
+    }
+    section{
+        margin-top: 20%;
+        margin-left:10%;
+    }
+
+}
+@media only screen and (max-width: 1024px){
+    h1,h2{
+        font-size: 4em;
+    }
+    h3, .advanced, #advanced{
+        font-size: 1.5em;
+    }
+    nav,.search_option{
+        font-size: 30px;
+        hyphens:auto;
+    }
+
+    nav > a > button{
+        font-size: 30px;
+    }
+}
+@media only screen and (max-width: 680px){
+    h1,h2{
+        font-size:3em;
+    }
+    h3, .advanced, #advanced{
+      font-size:1em;
+    }
+    body{
+        font-size: 1em;
+    }
+    p{
+        font-size: 1em;
+    }
+    nav,.search_option{
+        font-size: 20px;
+    }
+    nav > a > button{
+        font-size: 0.75em;
+    }
+}
+@media only screen and (max-width: 400px){
+    h1,h2{
+        font-size:2em;
+    }
+    nav,.search_option{
+        font-size: 15px;
+    }
+
+}
+@media only screen and (max-width: 300px){
+    h1,h2{
+        font-size:1em;
+    }
+
 }

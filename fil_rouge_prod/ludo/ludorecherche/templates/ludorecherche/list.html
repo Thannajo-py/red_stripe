@@ -1,21 +1,19 @@
 {% if games|length_is:"0" %}
 {% load static %}
-<div class="text-center"><h3>{{interface.theme.empty_query_text}}</h3><img class='col-9' src="{% static 'ludorecherche/img/'%}{{interface.theme.empty_query_image}}" alt="un trésor vide"></div>
+<h3>{{interface.theme.empty_query_text}}</h3><img class='col-9' src="{% static 'ludorecherche/img/'%}{{interface.theme.empty_query_image}}" alt="un trésor vide">
 
 {% else %}
-
-<div class="container-fluid">
-    <div class="row">
-    {% for game in games %}
-        <div class="col-4 text-center">
-              <img class="img-responsive img-thumbnail list" src="{% static 'ludorecherche/img/'%}{{ game.picture }}" alt="{{ game.name }}">
-            <h3><a href="{% url 'ludorecherche:detail' game_pk=game.pk %}">{{ game.name }}</a></h3>
-            {% for designer in game.designers.all %}
-                <p>{{ designer.name }}</p>
-            {% endfor %}
-
-        </div>
-        {% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
-    {% endfor %}
+    <div>
+        {% for game in games %}
+            <div>
+                <div class="image">
+                    <img  src="{% static 'ludorecherche/img/'%}{{ game.picture }}" alt="{{ game.name }}">
+                </div>
+                <h3><a href="{% url 'ludorecherche:detail' game_pk=game.pk %}">{{ game.name }}</a></h3>
+                {% for designer in game.designers.all %}
+                    <p>{{ designer.name }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
     </div>
-</div>{% endif %}
+{% endif %}
