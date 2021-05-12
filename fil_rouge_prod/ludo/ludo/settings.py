@@ -34,6 +34,8 @@ ALLOWED_HOSTS = ['127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'ludoaccueil.apps.LudoaccueilConfig',
+    'ludogestion.apps.LudogestionConfig',
     'ludorecherche.apps.LudorechercheConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -123,7 +125,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+LOGIN_URL = '/ludogestion/log_in'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 if DEBUG:

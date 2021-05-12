@@ -19,6 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from ludorecherche import views
+from ludoaccueil import views as view
 
 
 handler404 = views.handler404
@@ -28,6 +29,7 @@ handler500 = views.handler500
 urlpatterns = [
     path('gm/', admin.site.urls),
     path('ludorecherche/', include('ludorecherche.urls', namespace='ludorecherche')),
-    path('', views.index, name='index'),
+    path('ludogestion/', include('ludogestion.urls', namespace='ludogestion')),
+    path('', view.accueil, name='accueil'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

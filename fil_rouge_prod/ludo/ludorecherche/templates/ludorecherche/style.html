@@ -1,38 +1,59 @@
 <style>
+
         @import url('{{interface.theme.font_link}}');
+
         {% load static %}
+
         body{
             background-image: url("{% static 'ludorecherche/img/' %}{{interface.theme.background_image}}");
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
+            background-color: {{interface.theme.color_back}};
             font-family: {{interface.theme.font_name}};
+            color: {{interface.theme.color_4th}};
         }
+
         button{
             font-family: {{interface.theme.font_name}};
+            box-shadow: {{interface.theme.color_4th}} 4px 4px;
+            background-color: {{interface.theme.color_2nd}};
+            color: {{interface.theme.color_4th}};
         }
+
+        button:hover{
+            box-shadow: {{interface.theme.color_2nd}} 4px 4px;
+            background-color: {{interface.theme.color_4th}};
+            color: {{interface.theme.color_2nd}};
+        }
+
+        button:active{
+            box-shadow: {{interface.theme.color_4th}} -4px -4px;
+            background-color: {{interface.theme.color_2nd}};
+            color: {{interface.theme.color_4th}};
+        }
+
         nav,section {
             background-color: {{interface.theme.color_main}}b0;
 
         }
+
         footer{
             background-color: {{interface.theme.color_main}};
         }
+
+        a {
+            color: {{interface.theme.color_3rd}};
+        }
+
+        .news{
+            background-color: {{interface.theme.color_4th}}a0;
+        }
+
         @media only screen and (max-width: 1400px) {
             nav{
                 background-color: {{interface.theme.color_main}};
             }
         }
-        #advanced {
-            background-color: {{interface.theme.color_2nd}};
-        }
-        a {
-            color: {{interface.theme.color_3rd}};
-        }
-        a > button {
-            background-color: {{interface.theme.color_3rd}};
-        }
-        body, a > button{
-            color: {{interface.theme.color_4th}};
-        }
+
 </style>

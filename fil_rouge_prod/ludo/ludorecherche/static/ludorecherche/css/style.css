@@ -2,39 +2,39 @@
 AUTHOR NAME: JONATHAN AUDIFFREN
 */
 
-/*Color set:
-#5f939a
-#d8ac9c
-#eac8af
-#1b2021*/
-
-/*NAV*/
+/*MAIN CATEGORY*/
 
 nav{
     position: fixed;
-    width:15%;
+    width:14%;
     font-size: 2em;
-    padding:1%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    padding:10px;
+
 
 }
+
 nav, section, footer{
     border-radius:20px;
 }
+
 nav > a {
     width:100%;
 }
+
 nav > a > button{
     width:100%;
     font-size:0.75em;
+    word-break: break-word;
     border-radius:20px;
-}
-nav > input{
-    width:100%;
+
 }
 
-/*BODY*/
+nav > input{
+    width:60%;
+}
 
 h1,h2{
     font-size:6em;
@@ -42,17 +42,24 @@ h1,h2{
     margin-bottom:10%;
     text-align: center;
 }
+
+button{
+    margin:0;
+    padding:0;
+}
 section {
     margin-left: 20%;
     margin-right: 10%;
-    margin-bottom: 10%;
+    margin-bottom: 300px;
 }
+
 section > div{
     display:flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
 
 }
+
 section > div > div{
     text-align: center;
     width:200px;
@@ -60,6 +67,7 @@ section > div > div{
 
 footer{
     display:flex;
+    flex-direction: column;
     justify-content: center;
     margin-top: 2%;
     text-align: center;
@@ -67,9 +75,26 @@ footer{
     bottom: 0;
     left: 0;
     width:100vw;
-
 }
-footer > img{
+
+footer > div{
+    display:flex;
+    justify-content: center;
+    text-align: center;
+}
+
+footer > div > a > button{
+    width:100%;
+    height:50px;
+    border-radius:20px;
+    font-size: 30px;
+}
+
+footer > div > a{
+    padding:5px;
+}
+
+footer > div > img{
     width:50px;
     height: fit-content;
     align-self: center;
@@ -77,69 +102,19 @@ footer > img{
 p{
     font-size:1.5em;
 }
-/*FOOTER*/
-
-#red_stripe{
-    color: red;
-}
 
 ul{
     list-style-type: none;
-    margin:0px;
-    padding:0px;
+    margin:0;
+    padding:0;
 }
 
-#search_bar{
-    display:flex;
-    flex-direction: column;
-}
-.list{
-    max-height: 150px;
-    max-width:150px;
-}
-.title{
-    font-size:4em;
-}
-.center{
-    align-items: center;
-    text-align: center !important;
-}
-
-
-#advanced{
-    border-radius: 50px;
-    margin-top:5%;
-    margin-bottom:2%;
-    font-size: 2em;
-
-}
-.advanced{
-    margin-top:10% ;
-    line-height: 200%;
-    font-size:2em;
-    text-align: left;
-}
-
-.advice{
-    font-size:0.5em;
-}
-.search_option{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    font-size: 0.7em;
-    padding:0%;
-
-}
 td > ul {
     display:flex;
     flex-wrap: wrap;
 }
-.search_option > label{
-    display: flex;
-    flex-direction: row;
-    align-self: center;
-}
+
+
 td{
     padding:1%;
     text-align:left;
@@ -147,41 +122,17 @@ td{
 
 }
 
-.detail{
-    display:flex;
-    flex-direction: column;
-}
-.detail > img {
-    max-width: 100%;
-    max-height:100%;
-    align-self:center;
-}
-.image>img{
-    max-width: 100%;
-    max-height:100%;
-    align-self:center;
-
-}
-.image{
-    height:200px;
-    width:200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-}
-.detail > div {
-    display:flex;
-    flex-direction: column;
-    align-content: center;
-    width:100%;
-}
 h3{
     font-size: 2em;
 }
-.search_button{
-    text-align: center;
 
+a{
+    font-size: 30px;
+    hyphens:auto;
+    margin:0;
+    padding:0;
 }
+
 
 input[type='text'],input[type='number']{
     width:90%;
@@ -192,18 +143,252 @@ input[type='checkbox']{
     width:40px;
     height:40px;
 }
+
+/*CLASS AND ID*/
+
+#search_bar{
+    display:flex;
+    flex-direction: column;
+}
+
+.list{
+    max-height: 150px;
+    max-width:150px;
+}
+
+.title{
+    font-size:4em;
+}
+
+.center{
+    align-items: center;
+    text-align: center !important;
+}
+
+#advanced{
+    border-radius: 50px;
+    margin-top:5%;
+    margin-bottom:2%;
+    font-size: 2em;
+
+}
+
+.advanced{
+    margin-top:10% ;
+    line-height: 200%;
+    font-size:2em;
+    text-align: left;
+}
+
+.advice{
+    font-size:0.5em;
+}
+
+.search_option{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-size: 0.7em;
+    padding:0;
+
+}
+
+#red_stripe{
+    color: red;
+}
+
+.detail{
+    display:flex;
+    flex-direction: column;
+}
+
+.detail > img {
+    max-width: 100%;
+    max-height:100%;
+    align-self:center;
+}
+
+.image>img{
+    max-width: 100%;
+    max-height:100%;
+    align-self:center;
+
+}
+
+.search_option > label{
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+}
+
+.image_error{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.image_error > img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.image{
+    height:200px;
+    width:200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.detail > div {
+    display:flex;
+    flex-direction: column;
+    align-content: center;
+    width:100%;
+}
+
+.search_button{
+    text-align: center;
+
+}
+
+ul.list_game{
+    font-size: 30px;
+    display:flex;
+    flex-wrap: wrap;
+}
+
+.image_choice{
+    max-width: 200px;
+    max-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image_choice > img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+ul.list_game > li{
+    display:flex;
+    flex-direction: column;
+    width:200px;
+    margin:20px;
+}
+
+ul.list_game > li > p{
+    font-size:30px;
+    height:175px;
+    margin:0;
+    text-align: center;
+}
+
+ul.list_game > li > a{
+    text-align: center;
+}
+
+ul.list_game > li > a > button{
+    height:50px;
+    width:100px;
+    border-radius:20px;
+
+}
+
+.news {
+    display:flex;
+    flex-wrap: wrap;
+}
+
+.news > li{
+    min-width:100px;
+    max-width:15%;
+    margin:2%;
+}
+
+.news > li > div{
+    display: flex;
+    flex-direction: column;
+}
+
+.news > li > div > div{
+    height:150px;
+}
+
+.news > li > div > div > img{
+    width:100px;
+}
+
+.news + h3 {
+    text-align: center;
+}
+.image_choice{
+    height:200px;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.video_youtube{
+    text-align: center;
+}
+
+#detail_image {
+    animation: apparition 3s linear;
+}
+
+#add_bar{
+    padding:20px;
+}
+
+.news{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-radius:20px;
+    margin:5px;
+}
+#id_name{
+    height:30px;
+}
+.logging{
+    display:flex;
+    justify-content: center;
+}
+
+.logging input{
+    width:100%;
+}
+
+.logging > table > tbody > tr:last-of-type > td{
+    text-align: center;
+}
+
+button[type="submit"]{
+    size:150px;
+    height:50px;
+    font-size: 30px;
+    border-radius: 20px;
+}
+/*MEDIA*/
+
 @media only screen and (max-width: 1400px){
     nav{
         flex-direction: row;
         top:0;
         left:0;
         width:100vw;
+        justify-content: center;
     }
     #search_bar{
         flex-direction: row;
+        padding:3%;
     }
     nav > a{
-        width:15vw;
+        width:14vw;
+        margin-right: 5px;
+        margin-left: 5px;
     }
     nav > a > button {
         height:100%;
@@ -218,31 +403,34 @@ input[type='checkbox']{
     section{
         margin-top: 20%;
         margin-left:10%;
+        padding:10px;
     }
 
 }
+
 @media only screen and (max-width: 1024px){
     h1,h2{
         font-size: 4em;
     }
     h3, .advanced, #advanced{
-        font-size: 1.5em;
+        font-size: 30px;
     }
     nav,.search_option{
         font-size: 30px;
-        hyphens:auto;
     }
 
     nav > a > button{
+        height:100%;
         font-size: 30px;
     }
 }
+
 @media only screen and (max-width: 680px){
     h1,h2{
         font-size:3em;
     }
     h3, .advanced, #advanced{
-      font-size:1em;
+      font-size:30px;
     }
     body{
         font-size: 1em;
@@ -253,22 +441,34 @@ input[type='checkbox']{
     nav,.search_option{
         font-size: 20px;
     }
-    nav > a > button{
-        font-size: 0.75em;
+    nav > a > button, footer > div > a > button{
+        font-size: 30px;
     }
 }
+
 @media only screen and (max-width: 400px){
     h1,h2{
         font-size:2em;
+        margin-top: 100px;
     }
     nav,.search_option{
         font-size: 15px;
     }
 
 }
+
 @media only screen and (max-width: 300px){
     h1,h2{
         font-size:1em;
     }
+
+}
+
+
+/*ANIMATION*/
+
+@keyframes apparition {
+    from{opacity: 0;}
+    to{opacity: 1;}
 
 }

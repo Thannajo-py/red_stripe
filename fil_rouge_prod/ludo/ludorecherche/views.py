@@ -1,38 +1,37 @@
 from random import randint
+import requests
 
-from django.views.defaults import server_error
-from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 
 
 from .models import Game, AddOn, MultiAddOn, Designer, Artist, Publisher, PlayingMode, Tag, Background, Topic,\
     Mechanism
 from .forms import SearchAdvForm
+from ludogestion.forms import LogInForm
+from ludogestion.views import base
 
 
 # Create your views here.
 def index(request):
-    interface = Background.objects.get(name='Interface')
+    context = base(request)
     games = Game.objects.order_by('-created_at')[:12]
-    context = {
+    context.update({
         'games': games,
-        'interface': interface,
-    }
+    })
     return render(request, 'ludorecherche/index.html', context)
 
 
 def list_all(request):
-    interface = Background.objects.get(name='Interface')
+    context = base(request)
     games = Game.objects.order_by('-created_at')
-    context = {
+    context.update({
         'games': games,
-        'interface': interface,
-    }
+    })
     return render(request, 'ludorecherche/list_all.html', context)
 
 
 def detail(request, game_pk):
-    interface = Background.objects.get(name='Interface')
+    context = base(request)
     game = get_object_or_404(Game, pk=game_pk)
     add_ons = AddOn.objects.filter(game__name__icontains=game.name)
     multi_add_ons = MultiAddOn.objects.filter(games__name__icontains=game.name)
@@ -49,8 +48,7 @@ def detail(request, game_pk):
             else 'orange' if game.difficulty.name.lower() in ['vétéran'] else 'red'
     else:
         color = 'blue'
-    context = {
-        'interface': interface,
+    context.update({
         'variable': game,
         'designers': designers,
         'artists': artists,
@@ -62,12 +60,12 @@ def detail(request, game_pk):
         'mechanisms': mechanisms,
         'topics': topics,
         'multi_add_ons': multi_add_ons,
-    }
+    })
     return render(request, 'ludorecherche/detail.html', context)
 
 
 def add_on_detail(request, add_on_pk):
-    interface = Background.objects.get(name='Interface')
+    context = base(request)
     add_on = get_object_or_404(AddOn, pk=add_on_pk)
     artists = [artist for artist in add_on.artists.all()]
     designers = [designer for designer in add_on.designers.all()]
@@ -80,8 +78,7 @@ def add_on_detail(request, add_on_pk):
             if add_on.difficulty.name.lower() in ['vétéran'] else 'red'
     else:
         color = 'blue'
-    context = {
-        'interface': interface,
+    context.update({
         'variable': add_on,
         'designers': designers,
         'artists': artists,
@@ -89,7 +86,7 @@ def add_on_detail(request, add_on_pk):
         'color': color,
         'playing_modes': playing_modes,
         'link_game': game,
-    }
+    })
     return render(request, 'ludorecherche/detail.html', context)
 
 
@@ -100,12 +97,11 @@ def lucky(request):
 
 
 def search_page(request):
-    interface = Background.objects.get(name='Interface')
-    form = SearchAdvForm(request.GET)
-    context = {
-        'interface': interface,
-        'form': form,
-    }
+    context = base(request)
+    search_form = SearchAdvForm(request.GET)
+    context.update({
+        'search_form': search_form,
+    })
     return render(request, 'ludorecherche/search_page.html', context)
 
 
@@ -128,7 +124,7 @@ def extend_number_of_player(game):
 
 
 def search(request):
-    interface = Background.objects.get(name='Interface')
+    context = base(request)
     query = request.GET.get('query')
     if not query:
         games = Game.objects.all()
@@ -156,12 +152,11 @@ def search(request):
                     or query.lower() in artists\
                     or query.lower() in publishers:
                 games += [game]
-    title = f"Résultats pour {interface.theme.query_name} du {query}"
-    context = {
-        'interface': interface,
+    title = f"Résultats pour {context['interface'].theme.query_name} du {query}"
+    context.update({
         'games': games,
         'title': title
-    }
+    })
     return render(request, 'ludorecherche/search_result.html', context)
 
 
@@ -212,7 +207,7 @@ def get_data_or_default(expression, value, default_value):
 
 
 def advanced_search(request):
-    interface = Background.objects.get(name='Interface')
+    context = base(request)
     form = SearchAdvForm(request.GET)
     language = get_data_list_or_default(form.data.getlist, 'language', [])
     query_game_playing_mode = get_data_list_or_default(form.data.getlist, 'playing_mode_choice', [])
@@ -250,17 +245,16 @@ def advanced_search(request):
                 and not_present_on_query_or_valid(game.language, language) \
                 and any_game_playing_mode_present(game, query_game_playing_mode):
             games.append(game)
-    title = f"Résultats pour {interface.theme.query_name} avancée"
-    context = {
-        'interface': interface,
+    title = f"Résultats pour {context['interface'].theme.query_name} avancée"
+    context.update({
         'title': title,
         'games': games,
-    }
+    })
     return render(request, 'ludorecherche/search_result.html', context)
 
 
 def multi_add_on_detail(request, multi_add_on_pk):
-    interface = Background.objects.get(name='Interface')
+    context = base(request)
     multi_add_on = get_object_or_404(MultiAddOn, pk=multi_add_on_pk)
     artists = [artist for artist in multi_add_on.artists.all()]
     designers = [designer for designer in multi_add_on.designers.all()]
@@ -273,8 +267,7 @@ def multi_add_on_detail(request, multi_add_on_pk):
             else 'orange' if multi_add_on.difficulty.name.lower() in ['vétéran'] else 'red'
     else:
         color = 'blue'
-    context = {
-        'interface': interface,
+    context.update({
         'variable': multi_add_on,
         'designers': designers,
         'artists': artists,
@@ -282,128 +275,111 @@ def multi_add_on_detail(request, multi_add_on_pk):
         'color': color,
         'playing_modes': playing_modes,
         'games': games,
-    }
+    })
     return render(request, 'ludorecherche/detail.html', context)
 
 
 def designer_game_list(request, designer_pk):
-    interface = Background.objects.get(name='Interface')
+    context = base(request)
     designer = get_object_or_404(Designer, pk=designer_pk)
     games = Game.objects.filter(designers=designer)
     title = f"Liste des jeux de {designer.name}"
-    context = {
-        'interface': interface,
+    context.update({
         'games': games,
         'title': title,
-    }
+    })
     return render(request, 'ludorecherche/search_result.html', context)
 
 
 def artist_game_list(request, artist_pk):
-    interface = Background.objects.get(name='Interface')
+    context = base(request)
     artist = get_object_or_404(Artist, pk=artist_pk)
     games = Game.objects.filter(artists=artist)
     title = f"Liste des jeux illustrés {artist.name}"
-    context = {
-        'interface': interface,
+    context.update({
         'games': games,
         'title': title,
-    }
+    })
     return render(request, 'ludorecherche/search_result.html', context)
 
 
 def publisher_game_list(request, publisher_pk):
-    interface = Background.objects.get(name='Interface')
+    context = base(request)
     publisher = get_object_or_404(Publisher, pk=publisher_pk)
     games = Game.objects.filter(publishers=publisher)
     title = f"Liste des jeux publiés par {publisher.name}"
-    context = {
-        'interface': interface,
+    context.update({
         'games': games,
         'title': title,
-    }
+    })
     return render(request, 'ludorecherche/search_result.html', context)
 
 
 def playing_mode_game_list(request, playing_mode_pk):
-    interface = Background.objects.get(name='Interface')
+    context = base (request)
     playing_mode = get_object_or_404(PlayingMode, pk=playing_mode_pk)
     games = Game.objects.filter(playing_mode=playing_mode)
     title = f"Liste des jeux de type {playing_mode.name}"
-    context = {
-        'interface': interface,
+    context.update({
         'games': games,
         'title': title,
-    }
+    })
     return render(request, 'ludorecherche/search_result.html', context)
 
 
 def tag_game_list(request, tag_pk):
-    interface = Background.objects.get(name='Interface')
+    context = base(request)
     tag = get_object_or_404(Tag, pk=tag_pk)
     games = Game.objects.filter(tag=tag)
     title = f"Liste des jeux contenant l'étiquette {tag.name}"
-    context = {
-        'interface': interface,
+    context.update({
         'games': games,
         'title': title,
-    }
+    })
     return render(request, 'ludorecherche/search_result.html', context)
 
 
 def topic_game_list(request, topic_pk):
-    interface = Background.objects.get(name='Interface')
+    context = base(request)
     topic = get_object_or_404(Topic, pk=topic_pk)
     games = Game.objects.filter(topic=topic)
     title = f"Liste des jeux contenant l'étiquette {topic.name}"
-    context = {
-        'interface': interface,
+    context.update({
         'games': games,
         'title': title,
-    }
+    })
     return render(request, 'ludorecherche/search_result.html', context)
 
 
 def mechanism_game_list(request, mechanism_pk):
-    interface = Background.objects.get(name='Interface')
+    context = base(request)
     mechanism = get_object_or_404(Mechanism, pk=mechanism_pk)
     games = Game.objects.filter(mechanism=mechanism)
     title = f"Liste des jeux contenant l'étiquette {mechanism.name}"
-    context = {
-        'interface': interface,
+    context.update({
         'games': games,
         'title': title,
-    }
+    })
     return render(request, 'ludorecherche/search_result.html', context)
 
 
 def handler404(request, exception):
-    interface = Background.objects.get(name='Interface')
-    context = {
-        'interface': interface,
-    }
+    context = base(request)
     return render(request, '404.html', context, status=404)
 
 
 def handler500(request):
-    interface = Background.objects.get(name='Interface')
-    context = {
-        'interface': interface,
-    }
+    context = base(request)
     return render(request, '500.html', context, status=500)
 
 
 def error_404(request):
-    interface = Background.objects.get(name='Interface')
-    context = {
-        'interface': interface,
-    }
+    context = base(request)
     return render(request, '404.html', context)
 
 
 def error_500(request):
-    interface = Background.objects.get(name='Interface')
-    context = {
-        'interface': interface,
-    }
+    context = base(request)
     return render(request, '500.html', context)
+
+

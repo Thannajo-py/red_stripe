@@ -13,25 +13,46 @@
     {% include 'ludorecherche/style.html' %}
 </head>
 <body>
-    <nav>
-
-        <a href="{% url 'ludorecherche:index' %}"><button type="button">Accueil</button></a>
-        <a href="{% url 'ludorecherche:search_page' %}"><button type="button">Recherche avancée</button></a>
-        <a href="{% url 'ludorecherche:list_all' %}"><button type="button">Tous les jeux</button></a>
-
-        <a href="{% url 'ludorecherche:lucky' %}"><button type="button">Tenter sa chance</button></a>
-
-        <form id="search_bar" action="{% url 'ludorecherche:search' %}" method="get" accept-charset="utf-8">
-            <label for="searchForm">Chercher un jeu</label>
-            <input type="text" id="searchForm" class="form-control" name="query">
-        </form>
-    </nav>
+{% block nav %}
+{% endblock %}
     <section>
         {% block content %}{% endblock %}
     </section>
     <footer>
-        <p>Projet <span id="red_stripe">fil_rouge</span> DEV FAD 31-01-21 J.AUDIFFREN</p>
-        <img src="{% static 'ludorecherche/img/logo.png' %}" class="list">
+        <div>
+            <p>Projet <span id="red_stripe">fil_rouge</span> DEV FAD 31-01-21 J.AUDIFFREN</p>
+            <img src="{% static 'ludorecherche/img/logo.png' %}" class="list">
+        </div>
+        <div>
+            <a href="{% url 'accueil' %}"><button type="button">Accueil</button></a>
+            <a href="{% url 'ludogestion:find_a_game' %}"><button type="button">Ludogestion</button></a>
+            <a href="{% url 'ludorecherche:index' %}"><button type="button">Ludorecherche</button></a>
+        </div>
+        {% if authentified %}
+            <form class="logging" action="{% url 'ludogestion:log_out'%}" method="POST">
+                {% csrf_token %}
+                <button type="submit">Log out</button>
+            </form>
+        {% else %}
+            <form class="logging" action="{% url 'ludogestion:log_in'%}" method="POST">
+                {% csrf_token %}
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><label for="{{ form.name.id_for_label }}">Nom</label></td>
+                            <td>{{ form.name }}</td>
+                        </tr>
+                        <tr>
+                            <td><label for="{{ form.password.id_for_label }}">Mot de passe</label></td>
+                            <td>{{ form.password }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><button type="submit">Log In</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        {% endif %}
     </footer>
 </body>
 </html>

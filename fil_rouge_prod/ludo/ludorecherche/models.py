@@ -106,7 +106,9 @@ class GameAddOnMultiAddOnCommonBase(models.Model):
     created_at = models.DateTimeField('date de création', auto_now_add=True)
     difficulty = models.ForeignKey(Difficulty, verbose_name='difficulté',
                                    on_delete=models.CASCADE, null=True, blank=True)
-    picture = models.TextField("URL de l'image", blank=True)
+    picture = models.TextField("URL interne de l'image", blank=True, null=True)
+    external_image = models.TextField("URL externe de l'image", blank=True, null=True)
+    thumb_image = models.TextField("URL externe de l'image de petite taille", blank=True, null=True)
     designers = models.ManyToManyField(Designer, verbose_name='Auteur', blank=True)
     artists = models.ManyToManyField(Artist, verbose_name='illustrateur', blank=True)
     publishers = models.ManyToManyField(Publisher, verbose_name='éditeur', blank=True)
@@ -117,13 +119,13 @@ class GameAddOnMultiAddOnCommonBase(models.Model):
     age = models.IntegerField('âge', blank=True, null=True)
     buying_price = models.IntegerField("prix d'achat", null=True, blank=True)
     stock = models.IntegerField("Quantité", default=1)
+    max_time = models.IntegerField('temps de jeu maximum', null=True, blank=True)
 
     class Meta:
         abstract = True
 
 
 class Game(GameAddOnMultiAddOnCommonBase):
-    max_time = models.IntegerField('temps de jeu maximum', null=True, blank=True)
     by_player = models.BooleanField('temps de jeu défini par joueur ?', default=False)
     tag = models.ManyToManyField(Tag, verbose_name='étiquettes', related_name='games', blank=True)
     mechanism = models.ManyToManyField(Mechanism, verbose_name='mécaniques associées', related_name='games', blank=True)
@@ -182,6 +184,7 @@ class Theme(models.Model):
     color_2nd = ColorField(default='#FF0000')
     color_3rd = ColorField(default='#FF0000')
     color_4th = ColorField(default='#FF0000')
+    color_back = ColorField(default='#FF0000')
 
     class Meta:
         verbose_name = "Thème"

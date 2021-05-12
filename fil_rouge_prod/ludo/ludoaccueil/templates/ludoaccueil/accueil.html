@@ -1,0 +1,71 @@
+{% extends 'ludoaccueil/ludoaccueil.html' %}
+{% block content %}
+{% load static %}
+<h1>{{interface.theme.index_title}}</h1>
+<h3 class="text-center">Les derniers jeux</h3>
+<ul class="news">
+    {% for game in last_news %}
+        <li><div><div><img src="{{game.image_url}}" alt="{{game.name}}"></div><a href="{{game.url}}">{{game.name}}</a></div></li>
+    {% endfor %}
+</ul>
+<h3 id="kickstarter">Les dernières sorties Kickstarter</h3>
+<ul class="news">
+    {% for game in last_kickstarters %}
+        <li><div><div><img src="{{game.image_url}}" alt="{{game.name}}"></div><a href="{{game.url}}">{{game.name}}</a></div></li>
+    {% endfor %}
+</ul>
+<h3 id="popular">Les jeux les plus populaires</h3>
+<ul class="news">
+    {% for game in most_popular %}
+        <li><div><div><img src="{{game.image_url}}" alt="{{game.name}}"></div><a href="{{game.url}}">{{game.name}}</a></div></li>
+    {% endfor %}
+</ul>
+<h3 id="ludonews">Les dernières entrées de la ludothèque</h3>
+<ul class="news">
+    {% for game in last_games %}
+        <li><div>
+             {% if game.picture %}
+                <div><img  src="{% static 'ludorecherche/img/'%}{{game.picture}}" alt="{{ game.name }}"></div>
+            {% elif game.thumb_image %}
+                <div><img  src="{{game.external_image}}" alt="{{ game.name }}"></div>
+            {% endif %}
+            <a href="{{game.bgg_link}}">{{game.name}}</a></div></li>
+    {% endfor %}
+</ul>
+<ul class="article" id="news">
+    <li>
+        {% for article in articles %}
+            {% if article.internal_img_url %}
+                <div><img src="{% static 'ludorecherche/img/'%}{{article.internal_img_url}}" alt="the article image"></div>
+            {% endif %}
+            {% if article.external_img_url %}
+                <div>
+                    <img src="{{article.external_img_url}}" alt="the article image">
+                </div>
+            {% endif %}
+            {% if article.internal_video_url %}
+                <video controls>
+                    <source src="{{article.internal_video_url}}" type="video/{{article.internal_video_codec}}" />
+                </video>
+            {% endif %}
+            {% if article.audio_url%}
+                <audio controls>
+                    <source src="{{article.audio_url}}" type="audio/{{article.audio_codec}}" />
+                </audio>
+            {% endif %}
+            {% if article.external_video_url %}
+            <div class="video_youtube">
+                <iframe width="90%" height="507" src="{{article.external_video_url}}"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                </iframe>
+            </div>
+            <h3 class="center">{{article.title}}</h3>
+            <p>{{article.content}}</p>
+            {% endif %}
+        {% endfor %}
+    </li>
+</ul>
+{% endblock %}

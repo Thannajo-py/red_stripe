@@ -7,5 +7,7 @@
 <h1>Il n'y a rien ici</h1>
 {% endif %}
 <h3>{{interface.theme.text_404}}</h3>
-<img class="col-8" alt="empty room" src="{% static '/ludorecherche/img/' %}{{interface.theme.image_404}}">
+<div class="image_error">
+    <img class="col-8" alt="empty room" src="{% static '/ludorecherche/img/' %}{{interface.theme.image_404}}">
+</div>
 {% endblock %}

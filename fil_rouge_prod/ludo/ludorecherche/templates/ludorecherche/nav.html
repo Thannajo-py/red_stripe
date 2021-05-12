@@ -1,0 +1,13 @@
+<nav>
+
+    <a href="{% url 'ludorecherche:index' %}"><button type="button">Derniers ajouts</button></a>
+    <a href="{% url 'ludorecherche:search_page' %}"><button type="button">Recherche avancée</button></a>
+    <a href="{% url 'ludorecherche:list_all' %}"><button type="button">Tous les jeux</button></a>
+
+    <a href="{% url 'ludorecherche:lucky' %}"><button type="button">Tenter sa chance</button></a>
+
+    <form id="search_bar" action="{% url 'ludorecherche:search' %}" method="get" accept-charset="utf-8">
+        <label for="searchForm">Recherche</label>
+        <input type="text" id="searchForm" class="form-control" name="query">
+    </form>
+</nav>

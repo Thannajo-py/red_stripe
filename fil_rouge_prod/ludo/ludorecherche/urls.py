@@ -1,4 +1,4 @@
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -29,4 +29,5 @@ urlpatterns = [
     re_path(r'^tag_(?P<tag_pk>[0-9]+)/$', views.tag_game_list, name='tag_game_list'),
     re_path(r'^mechanism_(?P<mechanism_pk>[0-9]+)/$', views.mechanism_game_list, name='mechanism_game_list'),
     re_path(r'^topic_(?P<topic_pk>[0-9]+)/$', views.topic_game_list, name='topic_game_list'),
+    path('ludogestion/', include('ludogestion.urls', namespace='ludogestion')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

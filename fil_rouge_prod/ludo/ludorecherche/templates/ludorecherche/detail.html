@@ -1,9 +1,14 @@
-{% extends 'ludorecherche/base.html' %}
+{% extends 'ludorecherche/ludorecherche.html' %}
 {% block content %}
 {% load static %}
 <h1><b>{{variable.name}}</b></h1>
     <div class="detail">
-        <img alt="{{variable.name}}" src="{% static 'ludorecherche/img/' %}{{variable.picture}}">
+        {% if variable.picture %}
+            <img alt="{{variable.name}}" id="detail_image" src="{% static 'ludorecherche/img/' %}{{variable.picture}}">
+        {% else %}
+            <img  id="detail_image" src="{{variable.external_image}}" alt="{{ variable.name }}">
+        {% endif %}
+
         <div>
             {% if designers|length_is:"0"%}
             {% elif designers|length_is:"1"%}
@@ -158,9 +163,9 @@
             {% if topics %}
                 {% if topics|length_is:"0"%}
                 {% elif topics|length_is:"1"%}
-                    <h3 class="tag"><b><i class="fas fa-tags"></i>Thème associé:</b></h3>
+                    <h3 class="tag"><b><i class="fab fa-affiliatetheme"></i>Thème associé:</b></h3>
                 {% else %}
-                    <h3 class="tag"><b><i class="fas fa-tags"></i>Thèmes associés:</b></h3>
+                    <h3 class="tag"><b><i class="fab fa-affiliatetheme"></i>Thèmes associés:</b></h3>
                 {% endif %}
                 {% if topics|length_is:"0"%}
                 {%else%}
@@ -174,9 +179,9 @@
             {% if mechanisms %}
                 {% if mechanisms|length_is:"0"%}
                 {% elif mechanisms|length_is:"1"%}
-                    <h3 class="tag"><b><i class="fas fa-tags"></i>Mécanisme de jeu associée:</b></h3>
+                    <h3 class="tag"><b><i class="fas fa-cog"></i>Mécanisme de jeu associé:</b></h3>
                 {% else %}
-                    <h3 class="tag"><b><i class="fas fa-tags"></i>Mécanismes de jeu associées:</b></h3>
+                    <h3 class="tag"><b><i class="fas fa-cog"></i>Mécanismes de jeu associés:</b></h3>
                 {% endif %}
                 {% if mechanisms|length_is:"0"%}
                 {%else%}
