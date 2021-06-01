@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -87,7 +88,7 @@ DATABASES = {
         'NAME': 'fil_rouge',  # le nom de notre base de donnees creee precedemment
         'USER': FIL_ROUGE_DB_USER,  # attention : remplacez par votre nom d'utilisateur
         'PASSWORD': FIL_ROUGE_DB_PASSWORD,
-        'HOST': 'Localhost',
+        'HOST': '',
         'PORT': '5432',
     }
 }
@@ -133,3 +134,5 @@ if DEBUG:
 else:
     STATIC_URL = 'http://172.30.32.21/'
 STATIC_ROOT = '/static/'
+
+django_heroku.settings(locals())

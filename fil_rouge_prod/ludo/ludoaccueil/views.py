@@ -14,14 +14,14 @@ from .models import News
 last_update = 0
 
 
-class ShowItems:
+class ShowItems:  # models for Game Board Atlas data
     def __init__(self, name, thumb_url, url):
         self.name = name
         self.image_url = thumb_url
         self.url = url
 
 
-def news(request):
+def news(request): # handle API Game Board Atlas requests
     selected = requests.get(
         f'https://api.boardgameatlas.com/api/search?{request}&client_id=JLBr5npPhV'
     )
@@ -31,7 +31,7 @@ def news(request):
     return selected
 
 
-def accueil(request):
+def accueil(request):  # Build the presentation page and send it back
     global last_update, last_news, last_kickstarters, most_popular
     context = base(request)
     last_games = Game.objects.order_by('-created_at')[:5]

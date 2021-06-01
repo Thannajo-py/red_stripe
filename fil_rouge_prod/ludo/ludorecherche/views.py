@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404
 
 
 from .models import Game, AddOn, MultiAddOn, Designer, Artist, Publisher, PlayingMode, Tag, Background, Topic,\
-    Mechanism
+    Mechanism, Theme
 from .forms import SearchAdvForm
 from ludogestion.forms import LogInForm
 from ludogestion.views import base
@@ -30,7 +30,7 @@ def list_all(request):
     return render(request, 'ludorecherche/list_all.html', context)
 
 
-def detail(request, game_pk):
+def detail(request, game_pk):  # Game detail
     context = base(request)
     game = get_object_or_404(Game, pk=game_pk)
     add_ons = AddOn.objects.filter(game__name__icontains=game.name)
@@ -91,6 +91,8 @@ def add_on_detail(request, add_on_pk):
 
 
 def lucky(request):
+    designer = Designer.objects.get(pk=108)
+    print(designer)
     games = Game.objects.all()
     game = games[randint(0, len(games) - 1)]
     return detail(request, game.pk)
@@ -105,7 +107,7 @@ def search_page(request):
     return render(request, 'ludorecherche/search_page.html', context)
 
 
-def extend_number_of_player(game):
+def extend_number_of_player(game):  # check if some add_on extend the max or min number of player
     all_add_ons = AddOn.objects.filter(game__pk=game.pk)
     minimum_player = game.player_min if game.player_min else 0
     maximum_player = game.player_max if game.player_max else 999
@@ -123,7 +125,7 @@ def extend_number_of_player(game):
     return minimum_player, maximum_player
 
 
-def search(request):
+def search(request):  # handle basic nav search
     context = base(request)
     query = request.GET.get('query')
     if not query:
@@ -160,14 +162,14 @@ def search(request):
     return render(request, 'ludorecherche/search_result.html', context)
 
 
-def not_present_on_query_or_valid(element, group):
+def not_present_on_query_or_valid(element, group):  # check if field is blank or return data
     try:
         return True if not group or element.name in group else False
     except AttributeError:
         return True
 
 
-def all_tags_present(game, query_tags):
+def all_tags_present(game, query_tags):  # check if field is blank or return data
     game_tag_list = [tag.name for tag in game.tag.all()]
     # not valid is there is more tag in the query than in the game
     all_tags_in_game = False if len(query_tags) > len(game_tag_list) else True
@@ -180,7 +182,7 @@ def all_tags_present(game, query_tags):
     return all_tags_in_game
 
 
-def any_game_playing_mode_present(game, query_game_playing_mode):
+def any_game_playing_mode_present(game, query_game_playing_mode):  # check if field is blank or return data
     game_playing_mode_list = [playing_mode.name for playing_mode in game.playing_mode.all()]
     playing_mode_tag = False if query_game_playing_mode else True
     for game_playing_mode in game_playing_mode_list:
@@ -190,7 +192,7 @@ def any_game_playing_mode_present(game, query_game_playing_mode):
     return playing_mode_tag
 
 
-def get_data_list_or_default(expression, value, default_value):
+def get_data_list_or_default(expression, value, default_value):  # check if field is blank or return data
     try:
         partial_query = expression(value)
     except KeyError:
@@ -198,7 +200,7 @@ def get_data_list_or_default(expression, value, default_value):
     return partial_query
 
 
-def get_data_or_default(expression, value, default_value):
+def get_data_or_default(expression, value, default_value):  # check if field is blank or return data
     try:
         partial_query = expression[value]
     except KeyError:
@@ -206,7 +208,7 @@ def get_data_or_default(expression, value, default_value):
     return partial_query
 
 
-def advanced_search(request):
+def advanced_search(request):  # search through database for specific games with multifactorial criteria
     context = base(request)
     form = SearchAdvForm(request.GET)
     language = get_data_list_or_default(form.data.getlist, 'language', [])
@@ -363,22 +365,22 @@ def mechanism_game_list(request, mechanism_pk):
     return render(request, 'ludorecherche/search_result.html', context)
 
 
-def handler404(request, exception):
+def handler404(request, exception):  # redirect 404 error
     context = base(request)
     return render(request, '404.html', context, status=404)
 
 
-def handler500(request):
+def handler500(request):  # redirect 500 error
     context = base(request)
     return render(request, '500.html', context, status=500)
 
 
-def error_404(request):
+def error_404(request):  # seeing 404 page while debug true
     context = base(request)
     return render(request, '404.html', context)
 
 
-def error_500(request):
+def error_500(request):  # seeing 500 page while debug true
     context = base(request)
     return render(request, '500.html', context)
 

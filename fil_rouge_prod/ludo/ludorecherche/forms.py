@@ -12,7 +12,7 @@ MECHANISM_CHOICES = [(mechanism.name, mechanism.name) for mechanism in Mechanism
 TOPIC_CHOICES = [(topic.name, topic.name) for topic in Topic.objects.all()]
 
 
-class SearchAdvForm(forms.Form):
+class SearchAdvForm(forms.Form):  # form used in advanced search
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'search_text'}), required=False)
     designer = forms.CharField(widget=forms.TextInput(attrs={'class': 'search_text'}), required=False)
     artist = forms.CharField(widget=forms.TextInput(attrs={'class': 'search_text'}), required=False)

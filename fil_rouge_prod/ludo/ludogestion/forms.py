@@ -1,11 +1,6 @@
-from django.forms import ModelForm, TextInput, PasswordInput
-from .models import User
+from django import forms
 
-class LogInForm(ModelForm):
-    class Meta:
-        model = User
-        fields = ['name', 'password']
-        widgets = {
-            'name': TextInput(attrs={'class': 'form-control'}),
-            'password': PasswordInput(attrs={'class': 'form-control'})
-        }
+
+class LogInForm(forms.Form):  # the log in form
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))

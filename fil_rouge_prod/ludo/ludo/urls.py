@@ -22,14 +22,14 @@ from ludorecherche import views
 from ludoaccueil import views as view
 
 
-handler404 = views.handler404
-handler500 = views.handler500
+handler404 = views.handler404  # to make custom 404 page
+handler500 = views.handler500  # to make custom 500 page
 
 
 urlpatterns = [
-    path('gm/', admin.site.urls),
-    path('ludorecherche/', include('ludorecherche.urls', namespace='ludorecherche')),
-    path('ludogestion/', include('ludogestion.urls', namespace='ludogestion')),
-    path('', view.accueil, name='accueil'),
+    path('gm/', admin.site.urls),  # admin url adress
+    path('ludorecherche/', include('ludorecherche.urls', namespace='ludorecherche')),  # url search include app url
+    path('ludogestion/', include('ludogestion.urls', namespace='ludogestion')),  # url search include app url
+    path('', view.accueil, name='accueil'),  # handle the presentation page with ludoaccueil app
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

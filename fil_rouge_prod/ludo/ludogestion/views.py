@@ -12,7 +12,8 @@ from django.contrib.auth.decorators import login_required
 from ludorecherche.models import Background, Game, Designer, Artist, Publisher, AddOn
 from .forms import LogInForm
 
-def base(request):
+
+def base(request):  # give the basic context of each page
     authentified = False
     form = LogInForm()
     if request.user.is_authenticated:
@@ -26,16 +27,19 @@ def base(request):
     return context
 
 
-@login_required
-def find_a_game_page(request):
+@login_required  # decorator checking if user is log sending it back to login_failed page if not
+def find_a_game_page(request):  # base page for adding a game
     context = base(request)
+    context.update({
+        'not_empty_list': True,
+    })
     return render(request, 'ludogestion/find_a_game.html', context)
 
 
-@login_required
-def retrieve_game_from_api(request):
+@login_required  # decorator checking if user is log sending it back to login_failed page if not
+def retrieve_game_from_api(request):  # build the answer API BGA page
     context = base(request)
-    class GameAtlas:
+    class GameAtlas:  # Storing BGA API answer
         def __init__(self, name, picture, id):
             self.name = name
             self.picture = picture
@@ -44,17 +48,22 @@ def retrieve_game_from_api(request):
     query = request.GET.get('query')
     api_answer = requests.get(f'https://api.boardgameatlas.com/api/search?name={query}&client_id=JLBr5npPhV')
     api_answer = json.loads(api_answer.text)
-    api_answer = api_answer['games']
-    api_answer = [GameAtlas(game['name'], game['thumb_url'], game['id']) for game in api_answer]
-    context.update({
-        'api_answer': api_answer,
-    })
-    return render(request, 'ludogestion/find_a_game.html', context)
+    try:
+        api_answer = api_answer['games']
+        api_answer = [GameAtlas(game['name'], game['thumb_url'], game['id']) for game in api_answer]
+        not_empty_list = True if api_answer else False
+        context.update({
+            'api_answer': api_answer,
+            'not_empty_list': not_empty_list,
+        })
+        return render(request, 'ludogestion/find_a_game.html', context)
+    except KeyError:
+        pass
 
 
-@login_required
-@transaction.atomic
-def add_a_game(request, game_id):
+@login_required  # decorator checking if user is log sending it back to login_failed page if not
+@transaction.atomic  # ensure all the register go well or cancel change in database
+def add_a_game(request, game_id):  # Register selected game from page to database if not present
     context = base(request)
     api_answer = requests.get(f'https://api.boardgameatlas.com/api/search?ids={game_id}&client_id=JLBr5npPhV')
     api_answer = json.loads(api_answer.text)
@@ -82,7 +91,6 @@ def add_a_game(request, game_id):
                 age=api_answer['min_age'],
                 max_time=api_answer['max_playtime'],
                 )
-            registered_game.save()
         else:
             registered_game = AddOn.objects.create(
                 name=api_answer['name'],
@@ -95,12 +103,10 @@ def add_a_game(request, game_id):
                 age=api_answer['min_age'],
                 max_time=api_answer['max_playtime'],
             )
-            registered_game.save()
         try:
             main_designer = Designer.objects.get(name=api_answer['primary_designer']['name'])
         except ObjectDoesNotExist:
             main_designer = Designer.objects.create(name=api_answer['primary_designer']['name'])
-            main_designer.save()
         registered_game.designers.add(main_designer)
         artists_list = api_answer['artists']
         for artist in artists_list:
@@ -108,13 +114,11 @@ def add_a_game(request, game_id):
                 game_artist = Artist.objects.get(name=artist)
             except ObjectDoesNotExist:
                 game_artist = Artist.objects.create(name=artist)
-                game_artist.save()
             registered_game.artists.add(game_artist)
         try:
             main_publisher = Publisher.objects.get(name=api_answer['primary_publisher']['name'])
         except ObjectDoesNotExist:
             main_publisher = Publisher.objects.create(name=api_answer['primary_publisher']['name'])
-            main_publisher.save()
         registered_game.publishers.add(main_publisher)
         registered_game.save()
         context.update({
@@ -123,7 +127,7 @@ def add_a_game(request, game_id):
         return render(request, 'ludogestion/find_a_game.html', context)
 
 
-def log_in(request):
+def log_in(request):  # Handle login attempt
     context = base(request)
     if request.method == "POST":
         username = request.POST['name']
@@ -142,7 +146,7 @@ def log_in(request):
         return render(request, 'ludogestion/login_failed.html', context)
 
 
-def log_out(request):
+def log_out(request):  # handle logout attempt
     context = base(request)
     context['authentified'] = False
     logout(request)

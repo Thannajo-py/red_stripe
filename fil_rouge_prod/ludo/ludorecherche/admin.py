@@ -3,9 +3,11 @@ from django.contrib import admin
 
 from .models import Game, Designer, Artist, Publisher, AddOn, Language, PlayingMode, \
     Difficulty, Tag, MultiAddOn, Theme, Background, Topic, Mechanism
+# What the admin can do and can't do
 
 
 class MultiAddOnGameInline(admin.TabularInline):
+    # make access to one table through another by admin possible
     model = MultiAddOn.games.through
     extra = 1
     verbose_name = "extension partagée"
@@ -13,14 +15,16 @@ class MultiAddOnGameInline(admin.TabularInline):
 
 
 @admin.register(Game)
+# decorator giving admin right to change create and modify target
 class GameAdmin(admin.ModelAdmin):
     search_fields = ['name']
     inlines = [MultiAddOnGameInline, ]
     list_display = ['name', ]
-    ordering = ['name']
+    ordering = ['name', 'pk']
 
 
 @admin.register(Language)
+# decorator giving admin right to change create and modify target
 class LanguageAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ('name',)
@@ -28,6 +32,7 @@ class LanguageAdmin(admin.ModelAdmin):
 
 
 @admin.register(PlayingMode)
+# decorator giving admin right to change create and modify target
 class PlayingModeAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ('name',)
@@ -35,6 +40,7 @@ class PlayingModeAdmin(admin.ModelAdmin):
 
 
 class DesignerMultiAddOnInline(admin.TabularInline):
+    # make access to one table through another by admin possible
     model = MultiAddOn.designers.through
     extra = 1
     verbose_name = "extension"
@@ -42,6 +48,7 @@ class DesignerMultiAddOnInline(admin.TabularInline):
 
 
 class DesignerAddOnInline(admin.TabularInline):
+    # make access to one table through another by admin possible
     model = AddOn.designers.through
     extra = 1
     verbose_name = "extension"
@@ -49,6 +56,7 @@ class DesignerAddOnInline(admin.TabularInline):
 
 
 class DesignerGameInline(admin.TabularInline):
+    # make access to one table through another by admin possible
     model = Game.designers.through
     extra = 1
     verbose_name = "jeu"
@@ -56,14 +64,16 @@ class DesignerGameInline(admin.TabularInline):
 
 
 @admin.register(Designer)
+# decorator giving admin right to change create and modify target
 class DesignerAdmin(admin.ModelAdmin):
-    search_fields = ['name']
+    search_fields = ['name', 'pk']
     inlines = [DesignerGameInline, DesignerAddOnInline, DesignerMultiAddOnInline, ]
     list_display = ('name',)
-    ordering = ['name']
+    ordering = ['name', 'pk']
 
 
 class ArtistGameInline(admin.TabularInline):
+    # make access to one table through another by admin possible
     model = Game.artists.through
     extra = 1
     verbose_name = "jeu"
@@ -71,6 +81,7 @@ class ArtistGameInline(admin.TabularInline):
 
 
 class ArtistAddOnInline(admin.TabularInline):
+    # make access to one table through another by admin possible
     model = AddOn.artists.through
     extra = 1
     verbose_name = "extension"
@@ -78,6 +89,7 @@ class ArtistAddOnInline(admin.TabularInline):
 
 
 class ArtistMultiAddOnInline(admin.TabularInline):
+    # make access to one table through another by admin possible
     model = MultiAddOn.artists.through
     extra = 1
     verbose_name = "extension partagée"
@@ -85,6 +97,7 @@ class ArtistMultiAddOnInline(admin.TabularInline):
 
 
 @admin.register(Artist)
+# decorator giving admin right to change create and modify target
 class ArtistAdmin(admin.ModelAdmin):
     search_fields = ['name']
     inlines = [ArtistAddOnInline, ArtistMultiAddOnInline, ArtistGameInline, ]
@@ -93,6 +106,7 @@ class ArtistAdmin(admin.ModelAdmin):
 
 
 @admin.register(Publisher)
+# decorator giving admin right to change create and modify target
 class PublisherAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ('name',)
@@ -100,6 +114,7 @@ class PublisherAdmin(admin.ModelAdmin):
 
 
 @admin.register(AddOn)
+# decorator giving admin right to change create and modify target
 class AddOnAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ('name',)
@@ -107,6 +122,7 @@ class AddOnAdmin(admin.ModelAdmin):
 
 
 @admin.register(Difficulty)
+# decorator giving admin right to change create and modify target
 class DifficultyAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ('name',)
@@ -114,6 +130,7 @@ class DifficultyAdmin(admin.ModelAdmin):
 
 
 class GameTagInline(admin.TabularInline):
+    # make access to one table through another by admin possible
     model = Game.tag.through
     extra = 1
     verbose_name = "jeu"
@@ -121,6 +138,7 @@ class GameTagInline(admin.TabularInline):
 
 
 @admin.register(Tag)
+# decorator giving admin right to change create and modify target
 class TagAdmin(admin.ModelAdmin):
     search_fields = ['name']
     inlines = [GameTagInline, ]
@@ -129,6 +147,7 @@ class TagAdmin(admin.ModelAdmin):
 
 
 @admin.register(MultiAddOn)
+# decorator giving admin right to change create and modify target
 class MultiAddOnAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ('name',)
@@ -136,6 +155,7 @@ class MultiAddOnAdmin(admin.ModelAdmin):
 
 
 @admin.register(Theme)
+# decorator giving admin right to change create and modify target
 class ThemeAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ('name',)
@@ -143,19 +163,21 @@ class ThemeAdmin(admin.ModelAdmin):
 
 
 @admin.register(Background)
+# decorator giving admin right to change create and modify target
 class BackgroundAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ('name',)
     ordering = ['name']
 
-    def has_add_permission(self, request):
+    def has_add_permission(self, request):  # custom permission denied
         return False
 
-    def has_delete_permission(self, request, obj=None):
+    def has_delete_permission(self, request, obj=None):  # custom permission denied
         return False
 
 
 class GameTopicInline(admin.TabularInline):
+    # make access to one table through another by admin possible
     model = Game.topic.through
     extra = 1
     verbose_name = "jeu"
@@ -163,6 +185,7 @@ class GameTopicInline(admin.TabularInline):
 
 
 @admin.register(Topic)
+# decorator giving admin right to change create and modify target
 class TopicAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ('name',)
@@ -171,6 +194,7 @@ class TopicAdmin(admin.ModelAdmin):
 
 
 class GameMechanismInline(admin.TabularInline):
+    # make access to one table through another by admin possible
     model = Game.mechanism.through
     extra = 1
     verbose_name = "jeu"
@@ -178,6 +202,7 @@ class GameMechanismInline(admin.TabularInline):
 
 
 @admin.register(Mechanism)
+# decorator giving admin right to change create and modify target
 class MechanismAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ('name',)

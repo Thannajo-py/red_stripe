@@ -1,0 +1,1 @@
+[{"model": "ludorecherche.language", "pk": 1, "fields": {"name": "Français"}}, {"model": "ludorecherche.language", "pk": 2, "fields": {"name": "Anglais"}}]

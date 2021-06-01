@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 
-class News(models.Model):
+class News(models.Model):  # Datbase table for storing article for presentation page
     title = models.CharField("titre", max_length=200, null=True, blank=True, unique=True)
     internal_img_url = models.CharField("url d'image locale", max_length=200, null=True, blank=True)
     external_img_url = models.CharField("url d'image externe", max_length=200, null=True, blank=True)
@@ -14,6 +14,7 @@ class News(models.Model):
     audio_codec = models.CharField("codec audio", max_length=200, null=True, blank=True)
     content = models.TextField("contenu de l'article", null=True, blank=True)
     created_at = models.DateTimeField('date de création', auto_now_add=True)
+
     class Meta:
         verbose_name = "article"
         verbose_name_plural = 'articles'

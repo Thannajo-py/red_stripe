@@ -1,0 +1,1 @@
+[{"model": "ludorecherche.difficulty", "pk": 1, "fields": {"name": "Famille"}}, {"model": "ludorecherche.difficulty", "pk": 2, "fields": {"name": "vétéran"}}, {"model": "ludorecherche.difficulty", "pk": 3, "fields": {"name": "complexe"}}]

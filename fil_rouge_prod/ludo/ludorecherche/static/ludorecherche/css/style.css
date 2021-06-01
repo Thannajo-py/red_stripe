@@ -1,5 +1,6 @@
 /*Project:FADDEV31-01-21
 AUTHOR NAME: JONATHAN AUDIFFREN
+version:12th may 2021
 */
 
 /*MAIN CATEGORY*/
@@ -22,6 +23,13 @@ nav, section, footer{
 
 nav > a {
     width:100%;
+}
+
+h3 {
+    font-size:30px;
+}
+a > h3 {
+    font-size: 25px;
 }
 
 nav > a > button{
@@ -122,9 +130,6 @@ td{
 
 }
 
-h3{
-    font-size: 2em;
-}
 
 a{
     font-size: 30px;
@@ -170,6 +175,7 @@ input[type='checkbox']{
     margin-top:5%;
     margin-bottom:2%;
     font-size: 2em;
+    height:100px;
 
 }
 
