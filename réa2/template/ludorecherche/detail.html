@@ -1,0 +1,176 @@
+{% extends 'ludorecherche/ludorecherche.html' %}
+{% block content %}
+{% load static %}
+<h1><b>{{variable.name}}</b></h1>
+    <div class="detail">
+        {% if variable.picture %}
+            <img alt="{{variable.name}}" id="detail_image" src="{% static 'ludorecherche/img/' %}{{variable.picture}}">
+        {% else %}
+            <img  id="detail_image" src="{{variable.external_image}}" alt="{{ variable.name }}">
+        {% endif %}
+
+        <div>
+            {% if designers|length_is:"0"%}
+            {%else%}
+                <ul class="designer">
+                {% for designer in designers %}
+                    <li><a href="{% url 'ludorecherche:designer_game_list' designer_pk=designer.pk %}"><h3 class="designer"><i class="fas fa-user-edit"></i>: {{designer}}</h3></a></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            {% if artists|length_is:"0"%}
+            {%else%}
+                <ul class="artist">
+                    {% for artist in artists %}
+                    <li><a href="{% url 'ludorecherche:artist_game_list' artist_pk=artist.pk %}"><h3 class="artist"><i class="fas fa-paint-brush"></i>: {{artist}}</h3></a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% if publishers|length_is:"0"%}
+            {%else%}
+                <ul class="publisher">
+                    {% for publisher in publishers %}
+                    <li><a href="{% url 'ludorecherche:publisher_game_list' publisher_pk=publisher.pk %}"><h3 class="publisher"><i class="fas fa-paper-plane"></i>: {{publisher}}</h3></a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% if playing_modes|length_is:"0"%}
+            {%else%}
+                <ul class="playing_mode">
+                    {% for playing_mode in playing_modes %}
+                        <li><a href="{% url 'ludorecherche:playing_mode_game_list' playing_mode_pk=playing_mode.pk %}"><h3 class="playing_mode"><i class="fas fa-chess-knight"></i>: {{playing_mode}}</h3></a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% if variable.language %}
+                <ul class="language">
+                    {% for language in languages %}
+                        <li><h3 class="language"><i class="fas fa-language"></i>: {{language}}</h3></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% if variable.difficulty %}
+                <h3><i class="fas fa-signal" style="color:{{color}}"></i>: {{variable.difficulty.name}} </h3>
+            {% endif %}
+            {% if variable.player_min and variable.player_max %}
+                <h3><i class="fas fa-users"></i>: de {{variable.player_min}} à {{variable.player_max}} joueurs</h3>
+            {% elif variable.player_min %}
+                <h3><i class="fas fa-users"></i>: à partir de {{variable.player_min}} joueurs</h3>
+            {% elif variable.player_max %}
+                <h3><i class="fas fa-users"></i>: jusqu'à {{variable.player_max}} joueurs</h3>
+            {% endif %}
+            {% if variable.age %}
+                <h3><i class="fas fa-baby"></i><i class="fas fa-child"></i><i class="fas fa-male"></i>: Âge {{variable.age}} et +</h3>
+            {% endif %}
+            {% if variable.playing_time %}
+                <h3><i class="fas fa-stopwatch"></i>: {{variable.playing_time}}</h3>
+            {% endif %}
+            {% if variable.bgg_link %}
+                <h3><a href="{{variable.bgg_link}}"><i class="fas fa-chess-board"></i>Lien vers Board Game Geek ou Tric Trac</a></h3>
+            {% endif %}
+            <h3><a href="https://www.okkazeo.com/jeux/searchJeux?rech_nom={{variable.name}}"><i class="fas fa-chess-board"></i>Lien vers recherche Okkazeo</a></h3>
+            {% if variable.english_name %}
+            <h3><a href="https://bgc.moscow/bgg/?q={{variable.english_name}}"><i class="fas fa-chess-board"></i>Sleeve par bgg moscow</a></h3>
+            {% endif %}
+            {% if games %}
+                {% if games|length_is:"0" %}
+                {% elif games|length_is:"1" %}
+                    <h3 class="multi_add_on"><b><i class="fas fa-folder-minus"></i>Jeu associé:</b></h3>
+                {% else %}
+                    <h3 class="multi_add_on"><b><i class="fas fa-folder-minus"></i>Jeux associés:</b></h3>
+                {% endif %}
+                {% if games|length_is:"0" %}
+                {% else %}
+                    {% for game in games %}
+                        <ul>
+                            <li><h3 class="multi_add_on"><a href="{% url 'ludorecherche:detail' game_pk=game.pk %}">{{game}}</a></h3></li>
+                        </ul>
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+            {% if add_ons %}
+                {% if add_ons|length_is:"0"%}
+                {% elif add_ons|length_is:"1"%}
+                    <h3 class="add_ons"><b><i class="fas fa-plus-square"></i>Extension:</b></h3>
+                {% else %}
+                    <h3 class="add_ons"><b><i class="fas fa-plus-square"></i>Extensions:</b></h3>
+                {%endif%}
+                {% if add_ons|length_is:"0"%}
+                {% else %}
+                    <ul>
+                        {% for add_on in add_ons %}
+                            <li><h3 class="add_on"><a href="{% url 'ludorecherche:add_on_detail' add_on_pk=add_on.pk %}">{{add_on}}</a></h3></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endif %}
+            {% if multi_add_ons %}
+                {% if multi_add_ons|length_is:"0"%}
+                {% elif multi_add_ons|length_is:"1"%}
+                    <h3 class="multi_add_on"><b><i class="fas fa-plus-square"></i>Extension partagée:</b></h3>
+                {% else %}
+                    <h3 class="multi_add_on"><b><i class="fas fa-plus-square"></i>Extensions partagées:</b></h3>
+                {%endif%}
+                {% if multi_add_ons|length_is:"0"%}
+                {% else %}
+                    <ul>
+                        {% for multi_add_on in multi_add_ons %}
+                            <li><h3 class="multi_add_on"><a href="{% url 'ludorecherche:multi_add_on_detail' multi_add_on_pk=multi_add_on.pk %}">{{multi_add_on.name}}</a></h3></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endif %}
+            {% if link_game %}
+                <h3 class="add_on"><b><i class="fas fa-folder-minus"></i>Jeu de base:</b></h3>
+                <ul>
+                    <li><h3 class="add_on"><a href="{% url 'ludorecherche:detail' game_pk=variable.game.pk %}">{{link_game}}</a></h3></li>
+                </ul>
+            {% endif %}
+            {% if tags|length_is:"0"%}
+            {%else%}
+                <ul class="tag">
+                    {% for tag in tags %}
+                        <li><a href="{% url 'ludorecherche:tag_game_list' tag_pk=tag.pk %}" ><h3 class="tag"><i class="fas fa-tags"></i>: {{tag}}</h3></a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% if topics|length_is:"0"%}
+            {%else%}
+                <ul class="tag">
+                    {% for topic in topics %}
+                        <li><a href="{% url 'ludorecherche:topic_game_list' topic_pk=topic.pk %}" ><h3 class="tag"><i class="fab fa-affiliatetheme"></i>: {{topic}}</h3></a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% if mechanisms|length_is:"0"%}
+            {%else%}
+                <ul class="tag">
+                    {% for mechanism in mechanisms %}
+                        <li><a href="{% url 'ludorecherche:mechanism_game_list' mechanism_pk=mechanism.pk %}" ><h3 class="tag"><i class="fas fa-cog"></i>: {{mechanism}}</h3></a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% if authentified and stock > 0 %}
+                <div><a href="{% url 'ludogestion:add_reservation' type_name=type type_id=variable.pk %}" ><button class="option_button">Reserver</button></a></div>
+            {% endif %}
+           <h3 class="comment"><b><i class="far fa-comment"></i>Commentaire:</b></h3>
+            {% for comment in comments %}
+                <h3 class="comment">{{comment.title}}</h3>
+                <p>{{ comment.author.first_name }} {{ comment.author.last_name }}</p>
+                <p>{{ comment.text_content }}</p>
+            {% endfor %}
+            {% if authentified%}
+                <form class="comment" action="{% url 'ludoaccueil:post_comment' type_id=variable.id type_name=type %}" method="POST">
+                    {% csrf_token %}
+                    <h3><label for="{{ form_comment.title.id_for_label }}">titre</label></h3>
+                        {{ form_comment.title }}
+                    <h3><label for="{{ form_comment.content.id_for_label }}">Contenu</label></h3>
+                    <div class="text_area">{{ form_comment.content }}</div>
+                                <div><button type="submit">Post Comment</button></div>
+
+                </form>
+            {% endif %}
+        </div>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'ludorecherche/ludorecherche.html' %}
+{% block content %}
+<h1>{{interface.theme.advanced_search_title}}</h1>
+
+  <form class="advanced" action="{% url 'ludorecherche:advanced_search'%}" method="POST">
+  {% csrf_token %}
+
+    <table class="search_table">
+      <tbody>
+    <tr>
+      <td><label for="{{ search_form.name.id_for_label }}" ><i class="fas fa-heading"></i>Nom</label></td>
+      <td>{{ search_form.name }}</td>
+    </tr>
+      <tr>
+        <td><label for="{{ search_form.designer.id_for_label }}" ><i class="fas fa-user-edit"></i>Auteur</label></td>
+        <td>{{ search_form.designer }}</td>
+      </tr>
+    <tr>
+        <td><label for="{{ search_form.artist.id_for_label }}" ><i class="fas fa-paint-brush"></i>Illustrateur</label></td>
+        <td>{{ search_form.artist }}</td>
+    </tr>
+    <tr>
+        <td><label for="{{ form.publisher.id_for_label }}" ><i class="fas fa-paper-plane"></i>Éditeur</label></td>
+        <td>{{ search_form.publisher }}</td>
+    </tr>
+    <tr>
+        <td><label for="{{ search_form.playing_time.id_for_label }}" ><i class="fas fa-stopwatch"></i>Temps de jeu</label></td>
+        <td>{{ search_form.playing_time }}</td>
+    </tr>
+    <tr>
+      <td><label for="{{ search_form.player_number.id_for_label }}" ><i class="fas fa-users"></i>Nombre de joueurs</label></td>
+      <td>{{ search_form.player_number }}</td>
+    </tr>
+    <tr>
+      <td><label for="{{ search_form.age.id_for_label }}" ><i class="fas fa-baby"></i><i class="fas fa-child"></i><i class="fas fa-male"></i>Age</label></td>
+      <td>{{ search_form.age }}</td>
+    </tr>
+    <tr>
+      <td><label for="{{ search_form.language.id_for_label }}"><i class="fas fa-language"></i>Langue</label></td>
+      <td>
+        {{search_form.language}}
+      </td>
+    </tr>
+    <tr>
+      <td><label for="{{ search_form.playing_mode_choice.id_for_label }}"><i class="fas fa-chess-knight"></i>Type de jeu</label></td>
+      <td >
+        {{search_form.playing_mode}}
+      </td>
+    </tr>
+    <tr>
+        <td><label for="{{ search_form.difficulty.id_for_label }}"><i class="fas fa-signal"></i>Difficulté</label></td>
+        <td>
+          {{search_form.difficulty}}
+
+        </td>
+    </tr>
+    <tr>
+      <td><label for="{{ search_form.tag.id_for_label }}"><i class="fas fa-tags"></i>Étiquettes</label></td>
+      <td >
+        {{search_form.tag}}
+      </td>
+    </tr>
+      <tr>
+        <td><label for="{{ search_form.topic.id_for_label }}"><i class="fab fa-affiliatetheme"></i></i>Thèmes</label></td>
+        <td>
+            {{search_form.topic}}
+        </td>
+      </tr>
+      </tr>
+      <tr>
+        <td><label for="{{ search_form.mechanism.id_for_label }}"><i class="fas fa-cog"></i>Mécaniques</label></td>
+        <td>
+              {{search_form.mechanism}}
+      </td>
+    </tr>
+    </tbody>
+      </table>
+    <div class="search_button">
+      <button type="submit" id="advanced">{{interface.theme.advanced_search_button_text}}</button>
+    </div>
+  </form>
+
+
+{% endblock %}

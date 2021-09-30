@@ -1,0 +1,27 @@
+{% extends 'ludogestion/ludogestion.html' %}
+{% block content %}
+{% load static %}
+    <h1>Ajouter un jeu</h1>
+    {% if message %}
+        <h3>{{ message }}</h3>
+    {% endif %}
+  <form class="adding" action="{% url 'ludogestion:register_a_game'%}" method="POST">
+    {% csrf_token %}
+    <table class="adding_table">
+      <tbody>
+      {% for field in add_form %}
+          <tr>
+          <td>{{  field.label}}</td>
+            <td>{{ field }}</td>
+          </tr>
+      {% endfor %}
+    </tbody>
+      </table>
+    <div class="add_a_game_button">
+      <button type="submit" id="adding">Ajouter</button>
+    </div>
+  </form>
+    <script src="{% static 'ludorecherche/js/filter.js' %}"></script>
+
+
+{% endblock %}

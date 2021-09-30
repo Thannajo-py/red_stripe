@@ -1,0 +1,25 @@
+{% if games|length_is:"0" %}
+{% load static %}
+<h3>{{interface.theme.empty_query_text}}</h3><div class="image_error"><img src="{% static 'ludorecherche/img/'%}{{interface.theme.empty_query_image}}" alt="un trésor vide">
+</div>
+{% else %}
+    <div>
+        {% for game in games %}
+            <div>
+                <div class="image">
+                    {% if game.picture %}
+                        <img  src="{% static 'ludorecherche/img/'%}{{game.picture}}" alt="{{ game.name }}">
+                    {% elif game.thumb_image %}
+                        <img  src="{{game.thumb_image}}" alt="{{ game.name }}">
+                    {% else %}
+                        <img  src="{{game.external_image}}" alt="{{ game.name }}">
+                    {% endif %}
+                </div>
+                <h3><a href="{% url 'ludorecherche:detail' game_pk=game.pk %}">{{ game.name }}</a></h3>
+                {% for designer in game.designers.all|slice:":2" %}
+                    <p>{{ designer.name }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
